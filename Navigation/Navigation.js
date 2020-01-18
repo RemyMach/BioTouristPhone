@@ -5,12 +5,13 @@ import { createAppContainer } from 'react-navigation'
 import { createBottomTabNavigator } from 'react-navigation-tabs'
 import Favorites from '../Components/Favorites'
 import HomePage from '../Components/HomePage'
+import Profil from '../Components/Profil'
 
 const SearchStackNavigator = createStackNavigator({
     Home: {
         screen: HomePage,
         navigationOptions: {
-            title: 'Home'
+            headerShown: false
         }
     }
 });
@@ -19,11 +20,19 @@ const FavoritesStackNavigator = createStackNavigator({
     Favorites: {
         screen: Favorites,
         navigationOptions: {
-            title: 'favorites Announces'
+            headerShown: false
+        }
+    }
+});
+
+const ProfileStackNavigator = createStackNavigator({
+    Profil: {
+        screen: Profil,
+        navigationOptions: {
+            headerShown: false
         }
     }
 })
-
 
 const AppTabNavigator = createBottomTabNavigator(
     {
@@ -44,6 +53,17 @@ const AppTabNavigator = createBottomTabNavigator(
                 tabBarIcon: () => {
                     return <Image
                         source={require('../Images/ic_favorite.png')}
+                        style={styles.icon}
+                    />
+                }
+            }
+        },
+        Profil: {
+            screen: ProfileStackNavigator,
+            navigationOptions: {
+                tabBarIcon: () => {
+                    return <Image
+                        source={require('../Images/ic_tag_face.png')}
                         style={styles.icon}
                     />
                 }
