@@ -5,11 +5,15 @@ class HomePage extends React.Component {
 
     render() {
         return (
-            <Text> Ma HomePage </Text>
+            <Text style={styles.content_1}> The Home page </Text>
         )
     }
 }
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+    content_1 : {
+        marginTop : 20
+    }
+})
 
 export default HomePage

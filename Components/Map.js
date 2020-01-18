@@ -1,11 +1,11 @@
 import React from 'react'
 import { StyleSheet, Text } from 'react-native'
 
-class Profil extends React.Component {
+class Map extends React.Component {
 
     render() {
         return (
-            <Text style={styles.content_1}> The Profil page </Text>
+            <Text style={styles.content_1}> The Map page </Text>
         )
     }
 }
@@ -16,4 +16,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default Profil
+export default Map

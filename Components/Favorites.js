@@ -5,11 +5,15 @@ class Favorites extends React.Component {
 
     render() {
         return (
-            <Text> Mes favoris </Text>
+            <Text style={styles.content_1}> The Favorites page </Text>
         )
     }
 }
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+    content_1 : {
+        marginTop : 20
+    }
+})
 
 export default Favorites

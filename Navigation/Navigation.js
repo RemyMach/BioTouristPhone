@@ -6,9 +6,11 @@ import { createBottomTabNavigator } from 'react-navigation-tabs'
 import Favorites from '../Components/Favorites'
 import HomePage from '../Components/HomePage'
 import Profil from '../Components/Profil'
+import Map from '../Components/Map'
+
 
 const SearchStackNavigator = createStackNavigator({
-    Home: {
+    Search: {
         screen: HomePage,
         navigationOptions: {
             headerShown: false
@@ -25,6 +27,15 @@ const FavoritesStackNavigator = createStackNavigator({
     }
 });
 
+const MapStackNavigator = createStackNavigator({
+    Map: {
+        screen: Map,
+        navigationOptions: {
+            headerShown: false
+        }
+    }
+})
+
 const ProfileStackNavigator = createStackNavigator({
     Profil: {
         screen: Profil,
@@ -36,7 +47,7 @@ const ProfileStackNavigator = createStackNavigator({
 
 const AppTabNavigator = createBottomTabNavigator(
     {
-        Home: {
+        Search: {
             screen: SearchStackNavigator,
             navigationOptions: {
                 tabBarIcon: () => {
@@ -54,6 +65,17 @@ const AppTabNavigator = createBottomTabNavigator(
                     return <Image
                         source={require('../Images/ic_favorite.png')}
                         style={styles.icon}
+                    />
+                }
+            }
+        },
+        Map: {
+            screen: MapStackNavigator,
+            navigationOptions: {
+                tabBarIcon: () => {
+                    return <Image
+                        source={require('../Images/map.png')}
+                        style={styles.icon_map}
                     />
                 }
             }
@@ -84,6 +106,10 @@ const styles = StyleSheet.create({
     icon: {
         width: 30,
         height: 30
+    },
+    icon_map: {
+        width: 25,
+        height: 25
     }
 })
 
