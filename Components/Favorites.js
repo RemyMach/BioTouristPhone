@@ -1,5 +1,6 @@
 import React from 'react'
 import { StyleSheet, Text } from 'react-native'
+import Constants from "expo-constants";
 
 class Favorites extends React.Component {
 
@@ -12,8 +13,8 @@ class Favorites extends React.Component {
 
 const styles = StyleSheet.create({
     content_1 : {
-        marginTop : 20
-    }
+        marginTop : Constants.statusBarHeight
+    },
 })
 
 export default Favorites
