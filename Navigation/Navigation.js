@@ -1,7 +1,8 @@
 import React from 'react'
 import { StyleSheet, Image} from 'react-native'
-import { createStackNavigator } from 'react-navigation-stack'
+import { createStackNavigator} from 'react-navigation-stack'
 import { createAppContainer } from 'react-navigation'
+
 import Favorites from '../Components/Favorites'
 import HomePage from '../Components/HomePage'
 
@@ -23,18 +24,12 @@ const SearchStackNavigator = createStackNavigator({
         navigationOptions: {
             title: 'FavoriteFilms'
         }
-    },
-    FavoritesFilm: {
-        screen: Favorites,
-        navigationOptions: {
-            title: 'FavoriteFilms2'
-        }
     }
 })
 
 const AppTabNavigator = createBottomTabNavigator({
     HomePage: {
-        screen: SearchStacknavigator
+        screen: SearchStackNavigator
     },
     Favorites: {
         screen: FavoritesStackNavigator
