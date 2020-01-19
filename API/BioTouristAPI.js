@@ -9,16 +9,15 @@ export function postRequest(path, data){
     })
 }
 
-export function postRequest2(path, data){
+export function postRequestQuiNeFonctionnePas(path, data){
     let formData = new FormData();
     formData.append('api_token',"XBxgy8DbH1Hbp1hQ12FDciR6QGit8wbMZdIGOYwU5R21hEdtaTwcYfiMoDAEycFHVBJ9j78kyz6QoQxw")
     console.log(formData)
     //console.log(data)
     return fetch(API_URL + path,{
         method: 'POST',
-        body: {
-            pomme: 'dsfsdfds'
-        }
+        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+        body: data
     })
         .then((response) => response.json())
         .then((responseJson) => console.log(responseJson) )
