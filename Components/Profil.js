@@ -14,38 +14,21 @@ class Profil extends React.Component {
         super(props)
         this.state = {
             error : undefined,
-            user: undefined
+            status : undefined,
+            data: undefined
         }
         this.login = ""
         this.password = ""
-        this.error = ""
     }
+
     _login() {
 
-        let result = this.attemptToLogin()
-        this.failedToLogin(result)
-        this.storeUserInSession(result,'user')
-        this.storeUserInSession(result,'user_status')
-        this.storeUserInSession(result,'user_current_status')
-        this.getSessionUser()
+        this.attemptToLogin()
+        /*this.storeUserInSession('user')
+        this.storeUserInSession('user_status')
+        this.storeUserInSession('user_current_status')
+        this.getSessionUser()*/
 
-    }
-
-    failedToLogin(response){
-
-        let error = false;
-        response.then((responseJson) =>
-            //this.error = responseJson.data.status
-            this.setState({
-                error : 'the password or the login is not correct'
-            })
-        )
-    }
-
-    setStateForLogin(key, value){
-        this.setState({
-            key : value
-        })
     }
 
     attemptToLogin(){
@@ -55,24 +38,27 @@ class Profil extends React.Component {
             'email': this.login,
             'password': this.password
         }
-        let query = postRequest('user/login',data)
-
-        return query
+        postRequest('user/login',data).then(response => this.setState({
+            data : response.data,
+            status : response.data.status,
+        }))
     }
 
-    storeUserInSession(query,key){
-        //tester
-        query.then((response) =>
-            this.saveItem(key,JSON.stringify(response.data.key)))
+    storeDataInSession(key){
+            this.saveItem(key,JSON.stringify(this.state.data.key))
             .catch((error) => console.log(error))
     }
 
-    getSessionUser(){
+    async getSessionValueDependingOnKey(key){
 
-        AsyncStorage.getItem('user',(error, response) =>
-        {
-            this.storeUserInTheState(response)
-        })
+        try{
+            await AsyncStorage.getItem(key,(error, response) =>
+            {
+                console.log(JSON.parse(response))
+            })
+        }catch (error) {
+            console.log('voici l\'erreur : ' + error)
+        }
     }
 
     storeUserInTheState(response){
@@ -97,19 +83,27 @@ class Profil extends React.Component {
         }
     }
 
-    _displayState(){
-        console.log(this.state.error)
-        if(this.state.error !== undefined) {
+    _displayFailedToLoginOrStoreSession(){
+        if(this.state.status === '400') {
+            console.log(this.state.data.message)
             return (
-                <Text>pomme</Text>
+                <Text
+                style={styles.alert}
+                >{this.state.data.message}</Text>
             )
+        }else if(this.state.status === '200'){
+            console.log('je passe à nouveau ici')
+            this.storeDataInSession('user')
+            this.storeDataInSession('user_status')
+            this.storeDataInSession('user_current_status')
+            console.log(this.getSessionValueDependingOnKey('user'))
         }
     }
 
     render(){
         return (
             <View style={styles.content_1}>
-                {this._displayState()}
+                {this._displayFailedToLoginOrStoreSession()}
                 <TextInput
                     style={styles.textinput}
                     placeholder={'login'}
@@ -129,6 +123,14 @@ class Profil extends React.Component {
             </View>
         )
     }
+
+    componentDidMount() {
+        console.log('pomme pomme et nanadsd')
+        if(this.state.status == '200'){
+            console.log('j\'ai un statut à 200')
+            console.log(this.state.data)
+        }
+    }
 }
 
 const styles = StyleSheet.create({
@@ -147,7 +149,15 @@ const styles = StyleSheet.create({
     },
     button: {
         width: 100,
-        margin: 5
+        margin: 5,
+    },
+    alert: {
+        margin: 5,
+        backgroundColor: '#F8D7D9',
+        color: '#86383F',
+        borderRadius: 4,
+        height: 50,
+        textAlign: 'center'
     }
 })
 

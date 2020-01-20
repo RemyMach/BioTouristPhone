@@ -2,7 +2,6 @@ import { API_URL } from 'react-native-dotenv'
 import axios from 'axios'
 
 export function postRequest(path, data){
-
     return axios.post(API_URL + path,{
         body:
             data
