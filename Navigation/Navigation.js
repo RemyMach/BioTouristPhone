@@ -7,6 +7,7 @@ import Favorites from '../Components/Favorites'
 import HomePage from '../Components/HomePage'
 import Profil from '../Components/Profil'
 import Map from '../Components/Map'
+import Login from '../Components/Login'
 
 
 const SearchStackNavigator = createStackNavigator({
@@ -41,6 +42,12 @@ const ProfileStackNavigator = createStackNavigator({
         screen: Profil,
         navigationOptions: {
             headerShown: false
+        }
+    },
+    login: {
+        screen : Login,
+        navigationOptions: {
+            title:"login"
         }
     }
 })

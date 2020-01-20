@@ -4,6 +4,7 @@ import Constants from 'expo-constants'
 import { postRequest } from '../API/BioTouristAPI'
 import { ADMIN_API_TOKEN } from 'react-native-dotenv'
 import { ADMIN_API_ID } from 'react-native-dotenv'
+import Auth from './Auth'
 
 
 
@@ -102,6 +103,12 @@ class Profil extends React.Component {
 
     render(){
         return (
+            <Auth
+                navigation={this.props.navigation}
+            />
+
+        )
+        /*return (
             <View style={styles.content_1}>
                 {this._displayFailedToLoginOrStoreSession()}
                 <TextInput
@@ -121,7 +128,7 @@ class Profil extends React.Component {
                         title={"login"} onPress={() => this._login()}/>
                 </View>
             </View>
-        )
+        )*/
     }
 
     componentDidMount() {
