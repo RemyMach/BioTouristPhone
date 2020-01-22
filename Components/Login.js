@@ -1,6 +1,7 @@
 import React from 'react'
 import { Text,StyleSheet, View, Button,TextInput, ActivityIndicator, AsyncStorage } from 'react-native'
 import Constants from 'expo-constants'
+import HomePage from "./HomePage";
 import { postRequest } from '../API/BioTouristAPI'
 import { ADMIN_API_TOKEN } from 'react-native-dotenv'
 import { ADMIN_API_ID } from 'react-native-dotenv'
@@ -47,29 +48,29 @@ class Login extends React.Component {
         const {status} = this.state
         if(status === '200'){
 
-            this.removeItemSession()
-            this.storeDataInSession('user','user_status','user_current_status')
-            const resultat = this.getSessionValueDependingOnKey('user')
-            console.log('pomme')
+            //this.removeItemSession('user_current_status')
+            this.storeDataInSession()
+            //const resultat = this.getSessionValueDependingOnKey('user_status')
+            //console.log('pomme')
         }
     }
 
-    async removeItemSession(){
+    async removeItemSession(key){
         try{
-            await AsyncStorage.removeItem('user')
+            await AsyncStorage.removeItem(key)
             console.log('remove')
         }catch (error) {
             console.error('AsyncStorage error: ' + error.message)
         }
     }
 
-    async storeDataInSession(key, status, current_status){
+    async storeDataInSession(){
         try{
 
             await AsyncStorage.setItem('user', JSON.stringify(this.state.data.user))
             await AsyncStorage.setItem('user_status', JSON.stringify(this.state.data.user_status[0]))
             await AsyncStorage.setItem('user_current_status', JSON.stringify(this.state.data.user_current_status))
-            console.log('store')
+            this.props.navigation.navigate('Search')
         }catch (error) {
             console.error('AsyncStorage error: ' + error.message)
         }
