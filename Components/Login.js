@@ -13,9 +13,9 @@ class Login extends React.Component {
     {
         super(props)
         this.state = {
-            error : undefined,
             status : undefined,
-            data: undefined
+            data: undefined,
+            isLoaded : true
         }
         this.login = ""
         this.password = ""
@@ -24,11 +24,6 @@ class Login extends React.Component {
     _login() {
 
         this.attemptToLogin()
-        /*this.storeUserInSession('user')
-        this.storeUserInSession('user_status')
-        this.storeUserInSession('user_current_status')
-        this.getSessionUser()*/
-
     }
 
     attemptToLogin(){
@@ -38,26 +33,55 @@ class Login extends React.Component {
             'email': this.login,
             'password': this.password
         }
-        postRequest('user/login',data).then(response => this.setState({
-            data : response.data,
-            status : response.data.status,
-        }))
+        postRequest('user/login',data).then(response =>
+            this.setState({
+                data : response.data,
+                status : response.data.status,
+            }, () => {
+                this.storeSessionIfLogin()
+            }
+        ))
     }
 
-    storeDataInSession(key){
-        this.saveItem(key,JSON.stringify(this.state.data.key))
-            .catch((error) => console.log(error))
+    storeSessionIfLogin(){
+        const {status} = this.state
+        if(status === '200'){
+
+            this.removeItemSession()
+            this.storeDataInSession('user','user_status','user_current_status')
+            const resultat = this.getSessionValueDependingOnKey('user')
+            console.log('pomme')
+        }
+    }
+
+    async removeItemSession(){
+        try{
+            await AsyncStorage.removeItem('user')
+            console.log('remove')
+        }catch (error) {
+            console.error('AsyncStorage error: ' + error.message)
+        }
+    }
+
+    async storeDataInSession(key, status, current_status){
+        try{
+
+            await AsyncStorage.setItem('user', JSON.stringify(this.state.data.user))
+            await AsyncStorage.setItem('user_status', JSON.stringify(this.state.data.user_status[0]))
+            await AsyncStorage.setItem('user_current_status', JSON.stringify(this.state.data.user_current_status))
+            console.log('store')
+        }catch (error) {
+            console.error('AsyncStorage error: ' + error.message)
+        }
     }
 
     async getSessionValueDependingOnKey(key){
-
         try{
-            await AsyncStorage.getItem(key,(error, response) =>
-            {
-                console.log(JSON.parse(response))
-            })
+            const value = await AsyncStorage.getItem(key).then(result => console.log(JSON.parse(result)));
+            console.log('get')
+            return value;
         }catch (error) {
-            console.log('voici l\'erreur : ' + error)
+            console.error('AsyncStorage error: ' + error.message)
         }
     }
 
@@ -75,28 +99,24 @@ class Login extends React.Component {
         this.password = text
     }
 
-    async saveItem(key, value) {
-        try{
-            await AsyncStorage.setItem(key, value)
-        }catch (error) {
-            console.error('AsyncStorage error: ' + error.message)
-        }
-    }
 
     _displayFailedToLoginOrStoreSession(){
         if(this.state.status === '400') {
             console.log(this.state.data.message)
             return (
                 <Text
-                    style={styles.alert}
-                >{this.state.data.message}</Text>
+                    style={styles.alert}>
+                    {this.state.data.message}</Text>
             )
-        }else if(this.state.status === '200'){
-            console.log('je passe à nouveau ici')
-            this.storeDataInSession('user')
-            this.storeDataInSession('user_status')
-            this.storeDataInSession('user_current_status')
-            console.log(this.getSessionValueDependingOnKey('user'))
+        }
+    }
+    _displayLoading() {
+        if (!this.state.isLoaded) {
+            return (
+                <View style={styles.loading_container}>
+                    <ActivityIndicator size="large" />
+                </View>
+            )
         }
     }
 
@@ -114,12 +134,15 @@ class Login extends React.Component {
                     style={styles.textinput}
                     placeholder='Password'
                     onChangeText={(text) => this.handlePassword(text)}
+
                 />
                 <View style={styles.button}>
                     <Button
                         color={'#344941'}
-                        title={"login"} onPress={() => this._login()}/>
+                        title={"login"}
+                        onPress={() => this._login()}/>
                 </View>
+                {this._displayLoading()}
             </View>
         )
     }
@@ -129,9 +152,6 @@ const styles = StyleSheet.create({
     content_1 : {
         marginTop : Constants.statusBarHeight,
         flex:1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderWidth: 5
     },
     button: {
         width: 150,
@@ -139,8 +159,13 @@ const styles = StyleSheet.create({
         color: '#aebbb1',
         borderRadius: 4,
     },
-    text: {
-        fontSize: 20
+    textinput : {
+        margin: 5,
+        borderWidth: 1,
+        borderColor: '#afafaf',
+        borderRadius: 4,
+        height: 50,
+        paddingLeft: 5,
     },
     alert: {
         margin: 5,
@@ -149,6 +174,17 @@ const styles = StyleSheet.create({
         borderRadius: 4,
         height: 50,
         textAlign: 'center'
+    },
+    loading_container: {
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        /*on met un top: 100 pour que le textInput et le bouton soit toujours disponible
+         vu qu'on a mit une View en absolute qui pourrait les recouvrir*/
+        top: 100,
+        bottom: 0,
+        alignItems: 'center',
+        justifyContent: 'center',
     }
 })
 
