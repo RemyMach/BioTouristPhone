@@ -31,6 +31,7 @@ class Auth extends React.Component {
                     <Button
                         title={'Sign up'}
                         color={'#90a92d'}
+                        onPress={() => navigate.navigate('register')}
                     />
                 </View>
             </View>
@@ -44,7 +45,6 @@ const styles = StyleSheet.create({
         flex:1,
         justifyContent: 'center',
         alignItems: 'center',
-        borderWidth: 5
     },
     button: {
         width: 150,

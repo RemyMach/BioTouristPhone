@@ -6,6 +6,7 @@ import { createBottomTabNavigator } from 'react-navigation-tabs'
 import Favorites from '../Components/Favorites'
 import HomePage from '../Components/HomePage'
 import Profil from '../Components/Profil'
+import Register from '../Components/Register'
 import Map from '../Components/Map'
 import Login from '../Components/Login'
 
@@ -48,6 +49,12 @@ const ProfileStackNavigator = createStackNavigator({
         screen : Login,
         navigationOptions: {
             title:"login"
+        }
+    },
+    register: {
+        screen: Register,
+        navigationOptions: {
+            title:"register"
         }
     }
 })

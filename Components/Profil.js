@@ -106,29 +106,7 @@ class Profil extends React.Component {
             <Auth
                 navigation={this.props.navigation}
             />
-
         )
-        /*return (
-            <View style={styles.content_1}>
-                {this._displayFailedToLoginOrStoreSession()}
-                <TextInput
-                    style={styles.textinput}
-                    placeholder={'login'}
-                    onChangeText={(text) => this.handleLogin(text)}
-                />
-                <TextInput
-                    secureTextEntry={true}
-                    style={styles.textinput}
-                    placeholder='Password'
-                    onChangeText={(text) => this.handlePassword(text)}
-                />
-                <View style={styles.button}>
-                    <Button
-                        color={'#344941'}
-                        title={"login"} onPress={() => this._login()}/>
-                </View>
-            </View>
-        )*/
     }
 
     componentDidMount() {

@@ -23,11 +23,6 @@ class Login extends React.Component {
     }
 
     _login() {
-
-        this.attemptToLogin()
-    }
-
-    attemptToLogin(){
         let data = {
             'api_token': ADMIN_API_TOKEN,
             'idUser': ADMIN_API_ID,
@@ -36,12 +31,12 @@ class Login extends React.Component {
         }
         postRequest('user/login',data).then(response =>
             this.setState({
-                data : response.data,
-                status : response.data.status,
-            }, () => {
-                this.storeSessionIfLogin()
-            }
-        ))
+                    data : response.data,
+                    status : response.data.status,
+                }, () => {
+                    this.storeSessionIfLogin()
+                }
+            ))
     }
 
     storeSessionIfLogin(){
@@ -103,14 +98,19 @@ class Login extends React.Component {
 
     _displayFailedToLoginOrStoreSession(){
         if(this.state.status === '400') {
-            console.log(this.state.data.message)
+            var array = []
+            for(var variable in this.state.data.error) {
+                array.push(`${this.state.data.error[variable]}`)
+                array.map(value => console.log(value))
+            }
             return (
-                <Text
-                    style={styles.alert}>
-                    {this.state.data.message}</Text>
+                <Text>{array.map(value => <Text
+                    style={styles.alert}>-{value}{'\n'} </Text>)}</Text>
+
             )
         }
     }
+
     _displayLoading() {
         if (!this.state.isLoaded) {
             return (
@@ -128,12 +128,14 @@ class Login extends React.Component {
                 <TextInput
                     style={styles.textinput}
                     placeholder={'login'}
+                    ref='username'
                     onChangeText={(text) => this.handleLogin(text)}
                 />
                 <TextInput
                     secureTextEntry={true}
                     style={styles.textinput}
                     placeholder='Password'
+                    ref='password'
                     onChangeText={(text) => this.handlePassword(text)}
 
                 />
