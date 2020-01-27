@@ -22,6 +22,7 @@ class Auth extends React.Component {
                 >You are not connected yet</Text>
                 <View style={styles.button}>
                     <Button
+                        refreshProfileContent={this.props.refreshProfileContent}
                         title={'Sign in'}
                         color={'#058087'}
                         onPress={() => navigate.navigate('login')}
@@ -29,6 +30,7 @@ class Auth extends React.Component {
                 </View>
                 <View style={styles.button}>
                     <Button
+                        refreshProfileContent={this.props.refreshProfileContent}
                         title={'Sign up'}
                         color={'#90a92d'}
                         onPress={() => navigate.navigate('register')}

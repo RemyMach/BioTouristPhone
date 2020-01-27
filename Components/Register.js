@@ -17,6 +17,7 @@ import { postRequest } from '../API/BioTouristAPI'
 import { ADMIN_API_TOKEN } from 'react-native-dotenv'
 import { ADMIN_API_ID } from 'react-native-dotenv'
 import { Header } from 'react-navigation-stack';
+import {NavigationActions, StackActions} from "react-navigation";
 
 
 
@@ -45,7 +46,6 @@ class Register extends React.Component {
 
     _register() {
 
-        console.log('tomme')
         let data = {
             'api_token': ADMIN_API_TOKEN,
             'idUser': ADMIN_API_ID,
@@ -83,7 +83,13 @@ class Register extends React.Component {
             await AsyncStorage.setItem('user', JSON.stringify(this.state.data.user))
             await AsyncStorage.setItem('user_status', JSON.stringify(this.state.data.user_status[0]))
             await AsyncStorage.setItem('user_current_status', JSON.stringify(this.state.data.user_current_status))
-            this.props.navigation.navigate('Search')
+            this.props.navigation.dispatch(
+                StackActions.reset({
+                    index: 0,
+                    key: null,
+                    actions: [NavigationActions.navigate({ routeName: 'ProfileContent' })]
+                })
+            )
         }catch (error) {
             console.error('AsyncStorage error: ' + error.message)
         }
@@ -97,8 +103,7 @@ class Register extends React.Component {
                 array.map(value => console.log(value))
             }
             return (
-                <Text>{array.map(value => <Text
-                    style={styles.alert}>-{value}{'\n'} </Text>)}</Text>
+                <View style={ styles.contentAlert }>{array.map(value => <Text style={styles.alert}>-{value}{'\n'} </Text>)}</View>
 
             )
         }
@@ -109,6 +114,23 @@ class Register extends React.Component {
                 <View style={styles.loading_container}>
                     <ActivityIndicator size="large" />
                 </View>
+            )
+        }
+    }
+
+    _displaySellerDescription(){
+
+        if(this.state.check2 === true){
+            return (
+            <View style={styles.textAreaContainer} >
+                <TextInput
+                    style={styles.textArea}
+                    placeholder="Seller description"
+                    placeholderTextColor="grey"
+                    numberOfLines={10}
+                    multiline={true}
+                />
+            </View>
             )
         }
     }
@@ -127,6 +149,7 @@ class Register extends React.Component {
     switchValueCheckButtonSeller(){
 
         if(this.state.check1 === true){
+
             this.setState({
                 check1: false,
                 check2: true,
@@ -196,15 +219,7 @@ class Register extends React.Component {
                         onIconPress={() => this.switchValueCheckButtonSeller()}
                     />
                 </View>
-                <View style={styles.textAreaContainer} >
-                    <TextInput
-                        style={styles.textArea}
-                        placeholder="Seller description"
-                        placeholderTextColor="grey"
-                        numberOfLines={10}
-                        multiline={true}
-                    />
-                </View>
+                    {this._displaySellerDescription()}
                 <View style={styles.button}>
                     <Button
                         color={'#344941'}
@@ -284,12 +299,19 @@ const styles = StyleSheet.create({
         borderRadius: 10
     },
     alert: {
-        margin: 5,
         backgroundColor: '#F8D7D9',
         color: '#86383F',
         borderRadius: 4,
         height: 50,
-        textAlign: 'center'
+        textAlign: 'center',
+        flex: 1
+    },
+    contentAlert: {
+        backgroundColor: '#F8D7D9',
+        marginRight: 5,
+        marginLeft: 5,
+        borderRadius: 4,
+        padding: 0
     }
 })
 

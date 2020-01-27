@@ -5,6 +5,7 @@ import HomePage from "./HomePage";
 import { postRequest } from '../API/BioTouristAPI'
 import { ADMIN_API_TOKEN } from 'react-native-dotenv'
 import { ADMIN_API_ID } from 'react-native-dotenv'
+import { NavigationActions, StackActions } from 'react-navigation';
 
 
 
@@ -65,7 +66,13 @@ class Login extends React.Component {
             await AsyncStorage.setItem('user', JSON.stringify(this.state.data.user))
             await AsyncStorage.setItem('user_status', JSON.stringify(this.state.data.user_status[0]))
             await AsyncStorage.setItem('user_current_status', JSON.stringify(this.state.data.user_current_status))
-            this.props.navigation.navigate('Search')
+            this.props.navigation.dispatch(
+                StackActions.reset({
+                    index: 0,
+                    key: null,
+                    actions: [NavigationActions.navigate({ routeName: 'ProfileContent' })]
+                })
+            )
         }catch (error) {
             console.error('AsyncStorage error: ' + error.message)
         }
@@ -81,11 +88,6 @@ class Login extends React.Component {
         }
     }
 
-    storeUserInTheState(response){
-        this.setState({
-            user:JSON.parse(response)
-        })
-    }
 
     handleLogin(text){
         this.login = text
@@ -99,14 +101,18 @@ class Login extends React.Component {
     _displayFailedToLoginOrStoreSession(){
         if(this.state.status === '400') {
             var array = []
-            for(var variable in this.state.data.error) {
-                array.push(`${this.state.data.error[variable]}`)
-                array.map(value => console.log(value))
+            if(this.state.data.error){
+
+                for(var variable in this.state.data.error) {
+                    array.push(`${this.state.data.error[variable]}`)
+                    array.map(value => console.log(value))
+                }
+                return (
+                    <View style={ styles.contentAlert }>{array.map(value => <Text style={styles.alert}>-{value}{'\n'} </Text>)}</View>
+                )
             }
             return (
-                <Text>{array.map(value => <Text
-                    style={styles.alert}>-{value}{'\n'} </Text>)}</Text>
-
+                <View style={ styles.contentAlert }><Text style={styles.alert}>{this.state.data.message}</Text></View>
             )
         }
     }
@@ -122,6 +128,7 @@ class Login extends React.Component {
     }
 
     render(){
+        console.log('une petite pomme')
         return (
             <View style={styles.content_1}>
                 {this._displayFailedToLoginOrStoreSession()}

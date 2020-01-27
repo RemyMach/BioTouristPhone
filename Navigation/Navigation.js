@@ -5,7 +5,8 @@ import { createAppContainer } from 'react-navigation'
 import { createBottomTabNavigator } from 'react-navigation-tabs'
 import Favorites from '../Components/Favorites'
 import HomePage from '../Components/HomePage'
-import Profil from '../Components/Profil'
+import MyProfile from '../Components/MyProfile'
+import ProfileContent from '../Components/ProfileContent'
 import Register from '../Components/Register'
 import Map from '../Components/Map'
 import Login from '../Components/Login'
@@ -39,8 +40,14 @@ const MapStackNavigator = createStackNavigator({
 })
 
 const ProfileStackNavigator = createStackNavigator({
-    Profil: {
-        screen: Profil,
+    ProfileContent: {
+        screen: ProfileContent,
+        navigationOptions: {
+            headerShown: false
+        }
+    },
+    MyProfile: {
+        screen: MyProfile,
         navigationOptions: {
             headerShown: false
         }
