@@ -1,6 +1,7 @@
 import React from 'react'
 import { Text,StyleSheet, View, Button,TextInput, ActivityIndicator, AsyncStorage } from 'react-native'
 import Constants from 'expo-constants'
+import { ListItem } from 'react-native-elements'
 import { postRequest } from '../API/BioTouristAPI'
 import { ADMIN_API_TOKEN } from 'react-native-dotenv'
 import { ADMIN_API_ID } from 'react-native-dotenv'
@@ -50,13 +51,40 @@ class MyProfile extends React.Component {
     }
 
     render(){
+        const list = [
+            {
+                title: 'My informations',
+                icon: 'accessibility',
+            },
+            {
+                title: 'Password',
+                icon: 'security'
+            },
+            {
+                title: 'Messages',
+                icon: 'message'
+            }
+        ]
         return (
             <View style={styles.content_1}>
+                {
+                    list.map((item, i) => (
+                        <ListItem
+                            key={i}
+                            title={item.title}
+                            leftIcon={{ name: item.icon }}
+                            bottomDivider
+                            chevron
+                        />
+                    ))
+                }
+            <View>
                 <Text> Vous êtes connecté</Text>
                 <Button style={styles.button}
                         title={('logout')}
                         onPress={() => this._logout()}
                 />
+            </View>
             </View>
         )
     }
