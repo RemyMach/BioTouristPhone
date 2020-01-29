@@ -2,7 +2,7 @@ import React from 'react'
 import { StyleSheet, Text } from 'react-native'
 import Constants from "expo-constants";
 
-class Map extends React.Component {
+class Cart extends React.Component {
 
     render() {
         return (
@@ -17,4 +17,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default Map
+export default Cart

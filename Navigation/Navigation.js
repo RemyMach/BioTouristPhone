@@ -8,7 +8,7 @@ import HomePage from '../Components/HomePage'
 import MyProfile from '../Components/MyProfile'
 import ProfileContent from '../Components/ProfileContent'
 import Register from '../Components/Register'
-import Map from '../Components/Map'
+import Cart from '../Components/Basket'
 import Login from '../Components/Login'
 
 
@@ -30,9 +30,9 @@ const FavoritesStackNavigator = createStackNavigator({
     }
 });
 
-const MapStackNavigator = createStackNavigator({
-    Map: {
-        screen: Map,
+const CartStackNavigator = createStackNavigator({
+    Cart: {
+        screen: Cart,
         navigationOptions: {
             headerShown: false
         }
@@ -90,12 +90,12 @@ const AppTabNavigator = createBottomTabNavigator(
                 }
             }
         },
-        Map: {
-            screen: MapStackNavigator,
+        Cart: {
+            screen: CartStackNavigator,
             navigationOptions: {
                 tabBarIcon: () => {
                     return <Image
-                        source={require('../Images/map.png')}
+                        source={require('../Images/shopping_cart.png')}
                         style={styles.icon_map}
                     />
                 }
