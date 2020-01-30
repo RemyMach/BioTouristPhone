@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text,StyleSheet, View, Button,TextInput,TouchableOpacity, ActivityIndicator, AsyncStorage, StatusBar } from 'react-native'
+import { Text,StyleSheet, View, Button,TextInput,TouchableOpacity, ActivityIndicator, AsyncStorage, Alert, Image, ImageBackground } from 'react-native'
 import Constants from 'expo-constants'
 import { ListItem, Input, Icon } from 'react-native-elements'
 import MyInformations from "./MyInformations";
@@ -50,8 +50,21 @@ class MyProfile extends React.Component {
         this.removeItemSession('user','user_status','user_current_status')
     }
 
-    updateProfile(){
+    displayPowerOffAlert(){
 
+        return Alert.alert(
+                'Logout',
+                'Are you sure to want logout',
+                [
+                    {
+                        text: 'Cancel',
+                        onPress: () => console.log('Cancel Pressed'),
+                        style: 'cancel',
+                    },
+                    {text: 'OK', onPress: () => this._logout()},
+                ],
+            {cancelable: false},
+            );
     }
 
     displayMyInformation(){
@@ -104,9 +117,22 @@ class MyProfile extends React.Component {
 
     render(){
         return (
-            <View style={styles.content_1}>
-                <Text style={styles.title}>MACHAVOINE RÉMY</Text>
-                <StatusBar backgroundColor="blue" barStyle="light-content" />
+            <ImageBackground source={require('../Images/orange.jpeg')} style={styles.content_1}>
+                <View elevation={5} style={styles.header}>
+                    <View style={styles.imageProfil}>
+                        <Image
+                            style={styles.pear}
+                            source={require('../Images/pear.png')}
+                            />
+                    </View>
+                        <Text style={styles.title}>MACHAVOINE{'\n'}RÉMY</Text>
+                    <TouchableOpacity style={styles.imageOff} onPress={() => this.displayPowerOffAlert()}>
+                        <Image
+                            style={styles.off}
+                            source={require('../Images/off.png')}
+                        />
+                    </TouchableOpacity>
+                </View>
                 <View style={styles.content_2}>
                     <TouchableOpacity onPress={() => this.setState({myInformation: !this.state.myInformation})}>
                         <ListItem
@@ -142,14 +168,8 @@ class MyProfile extends React.Component {
                             chevron
                         />
                     </TouchableOpacity>
-                    <View>
-                        <Button style={styles.button}
-                            title={('logout')}
-                            onPress={() => this._logout()}
-                        />
-                    </View>
                 </View>
-            </View>
+            </ImageBackground>
         )
     }
 }
@@ -165,16 +185,26 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     title: {
-      fontSize: 41,
-      fontFamily: 'Montserrat-Thin'
+        fontSize: 30,
+        color: 'grey',
+        fontFamily: 'Helvetica'
     },
-    textinput : {
-        margin: 5,
-        borderWidth: 1,
-        borderColor: '#afafaf',
-        borderRadius: 4,
-        height: 50,
-        paddingLeft: 5,
+    header: {
+        flexDirection: 'row',
+        paddingBottom: 13,
+        shadowColor: "#000000",
+        shadowOpacity: 0.8,
+        shadowRadius: 2,
+        backgroundColor: 'white',
+        justifyContent: 'flex-start'
+    },
+    pear: {
+        width: 50,
+        height: 50
+    },
+    off : {
+        width: 30,
+        height: 30
     },
     button: {
         width: 100,
@@ -187,6 +217,16 @@ const styles = StyleSheet.create({
         borderRadius: 4,
         height: 50,
         textAlign: 'center'
+    },
+    imageProfil: {
+        margin: 5,
+        justifyContent: 'center'
+    },
+    imageOff: {
+        margin: 5,
+        justifyContent: 'center',
+        alignItems: 'flex-end',
+        flex:1
     }
 })
 

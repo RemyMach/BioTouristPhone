@@ -12,6 +12,7 @@ export default class App extends React.Component {
             'Montserrat-ExtraLight': require('./assets/fonts/Montserrat/Montserrat-ExtraLight.ttf'),
             'Montserrat-Medium': require('./assets/fonts/Montserrat/Montserrat-Medium.ttf'),
             'Montserrat-Thin': require('./assets/fonts/Montserrat/Montserrat-Thin.ttf'),
+            'Helvetica': require('./assets/fonts/Helvetica/Helvetica.ttf'),
         });
     }
 

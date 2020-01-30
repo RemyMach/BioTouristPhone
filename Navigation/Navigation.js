@@ -96,7 +96,7 @@ const AppTabNavigator = createBottomTabNavigator(
                 tabBarIcon: () => {
                     return <Image
                         source={require('../Images/shopping_cart.png')}
-                        style={styles.icon_map}
+                        style={styles.icon}
                     />
                 }
             }
@@ -127,10 +127,6 @@ const styles = StyleSheet.create({
     icon: {
         width: 30,
         height: 30
-    },
-    icon_map: {
-        width: 25,
-        height: 25
     }
 })
 
