@@ -6,7 +6,7 @@ class Cart extends React.Component {
 
     render() {
         return (
-            <Text style={styles.content_1}> The Map page </Text>
+            <Text style={styles.content_1}> The Cart page </Text>
         )
     }
 }

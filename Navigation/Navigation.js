@@ -8,7 +8,7 @@ import HomePage from '../Components/HomePage'
 import MyProfile from '../Components/MyProfile'
 import ProfileContent from '../Components/ProfileContent'
 import Register from '../Components/Register'
-import Cart from '../Components/Basket'
+import Cart from '../Components/Cart'
 import Login from '../Components/Login'
 
 

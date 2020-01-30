@@ -1,7 +1,8 @@
 import React from 'react'
-import { Text,StyleSheet, View, Button,TextInput,TouchableOpacity, ActivityIndicator, AsyncStorage } from 'react-native'
+import { Text,StyleSheet, View, Button,TextInput,TouchableOpacity, ActivityIndicator, AsyncStorage, StatusBar } from 'react-native'
 import Constants from 'expo-constants'
 import { ListItem, Input, Icon } from 'react-native-elements'
+import MyInformations from "./MyInformations";
 import { postRequest } from '../API/BioTouristAPI'
 import { ADMIN_API_TOKEN } from 'react-native-dotenv'
 import { ADMIN_API_ID } from 'react-native-dotenv'
@@ -49,68 +50,15 @@ class MyProfile extends React.Component {
         this.removeItemSession('user','user_status','user_current_status')
     }
 
+    updateProfile(){
+
+    }
+
     displayMyInformation(){
 
         if(this.state.myInformation === true) {
             return (
-                <View>
-                    <Input
-                        placeholder='Name'
-                        leftIcon={
-                            <Icon
-                                name='ac-unit'
-                                size={20}
-                                color='black'
-                            />
-                        }
-                        defaultValue={''}
-                    />
-                    <Input
-                        placeholder='Surname'
-                        leftIcon={
-                            <Icon
-                                name='ac-unit'
-                                size={20}
-                                color='black'
-                            />
-                        }
-                        defaultValue={''}
-                    />
-                    <Input
-                        placeholder='email'
-                        leftIcon={
-                            <Icon
-                                name='email'
-                                size={20}
-                                color='black'
-                            />
-                        }
-                        defaultValue={''}
-                    />
-                    <Input
-                        placeholder='Postal Code'
-                        leftIcon={
-                            <Icon
-                                name='ac-unit'
-                                size={20}
-                                color='black'
-                            />
-                        }
-                        defaultValue={''}
-                    />
-                    <Input
-                        placeholder='Phone'
-                        leftIcon={
-                            <Icon
-                                name='ac-unit'
-                                size={20}
-                                color='black'
-                            />
-                        }
-                        defaultValue={''}
-                    />
-
-                </View>
+               <MyInformations/>
             )
         }
     }
@@ -157,46 +105,50 @@ class MyProfile extends React.Component {
     render(){
         return (
             <View style={styles.content_1}>
-                <TouchableOpacity onPress={() => this.setState({myInformation: !this.state.myInformation})}>
-                    <ListItem
-                        key={1}
-                        title={this.list[0].title}
-                        leftIcon={{ name: this.list[0].icon }}
-                        rightIcon={this.displayRightIconInformation()}
-                        bottomDivider
-                        chevron={!this.state.myInformation}
-                    />
-                </TouchableOpacity>
-                {this.displayMyInformation()}
-                <TouchableOpacity onPress={() => this.setState({
-                    modificationPassword: !this.state.modificationPassword,
-                    rightIcon: 'arrow-downward'
-                })}>
-                    <ListItem
-                        key={2}
-                        title={this.list[1].title}
-                        leftIcon={{ name: this.list[1].icon }}
-                        rightIcon={this.displayRightIconPassword()}
-                        bottomDivider
-                        chevron={!this.state.modificationPassword}
-                    />
-                </TouchableOpacity>
-                {this.displayModificationPassword()}
-                <TouchableOpacity>
-                    <ListItem
-                        key={3}
-                        title={this.list[2].title}
-                        leftIcon={{ name: this.list[2].icon }}
-                        bottomDivider
-                        chevron
-                    />
-                </TouchableOpacity>
-            <View>
-                <Button style={styles.button}
-                        title={('logout')}
-                        onPress={() => this._logout()}
-                />
-            </View>
+                <Text style={styles.title}>MACHAVOINE RÉMY</Text>
+                <StatusBar backgroundColor="blue" barStyle="light-content" />
+                <View style={styles.content_2}>
+                    <TouchableOpacity onPress={() => this.setState({myInformation: !this.state.myInformation})}>
+                        <ListItem
+                            key={1}
+                            title={this.list[0].title}
+                            leftIcon={{ name: this.list[0].icon }}
+                            rightIcon={this.displayRightIconInformation()}
+                            bottomDivider
+                            chevron={!this.state.myInformation}
+                        />
+                    </TouchableOpacity>
+                    {this.displayMyInformation()}
+                    <TouchableOpacity onPress={() => this.setState({
+                        modificationPassword: !this.state.modificationPassword,
+                        rightIcon: 'arrow-downward'
+                    })}>
+                        <ListItem
+                            key={2}
+                            title={this.list[1].title}
+                            leftIcon={{ name: this.list[1].icon }}
+                            rightIcon={this.displayRightIconPassword()}
+                            bottomDivider
+                            chevron={!this.state.modificationPassword}
+                        />
+                    </TouchableOpacity>
+                    {this.displayModificationPassword()}
+                    <TouchableOpacity>
+                        <ListItem
+                            key={3}
+                            title={this.list[2].title}
+                            leftIcon={{ name: this.list[2].icon }}
+                            bottomDivider
+                            chevron
+                        />
+                    </TouchableOpacity>
+                    <View>
+                        <Button style={styles.button}
+                            title={('logout')}
+                            onPress={() => this._logout()}
+                        />
+                    </View>
+                </View>
             </View>
         )
     }
@@ -207,6 +159,14 @@ const styles = StyleSheet.create({
         marginTop : Constants.statusBarHeight,
         flex:1,
         justifyContent: 'center',
+    },
+    content_2 : {
+        flex:1,
+        justifyContent: 'center',
+    },
+    title: {
+      fontSize: 41,
+      fontFamily: 'Montserrat-Thin'
     },
     textinput : {
         margin: 5,
