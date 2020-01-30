@@ -18,14 +18,6 @@ class ProfileContent extends React.Component {
             refresh: false
         }
     }
-    /*shouldComponentUpdate() {
-        console.log('avant tout le monde')
-        this.setState({
-            loading: true
-        })
-
-        return true
-    }*/
 
     componentDidMount() {
 
@@ -74,7 +66,6 @@ class ProfileContent extends React.Component {
     }
 
     render(){
-        console.log(this.state.connected)
         if(this.state.loading === true){
             return  (
                     <View>

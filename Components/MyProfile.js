@@ -17,8 +17,7 @@ class MyProfile extends React.Component {
         super(props)
         this.state = {
             loading: true,
-            myInformation: false,
-            modificationPassword: false,
+            user: undefined
         }
         this.list= [
             {
@@ -35,6 +34,23 @@ class MyProfile extends React.Component {
                 icon: 'message'
             }
         ]
+    }
+
+    componentDidMount() {
+
+        this.getSessionValueDependingOnKey('user')
+    }
+
+    async getSessionValueDependingOnKey(key){
+        try{
+            const value = await AsyncStorage.getItem(key).then(result => result);
+            this.setState({
+                user: JSON.parse(value),
+                loading: false
+            })
+        }catch (error) {
+            console.error('AsyncStorage error: ' + error.message)
+        }
     }
 
     _displayLoading() {
@@ -67,36 +83,19 @@ class MyProfile extends React.Component {
             );
     }
 
-    displayMyInformation(){
+    displayMyInformations(){
 
-        if(this.state.myInformation === true) {
-            return (
-               <MyInformations/>
-            )
-        }
+
     }
 
     displayModificationPassword(){
-        if(this.state.modificationPassword === true) {
-            return (
-                <Text>Je change le mot de passe</Text>
-            )
-        }
+
     }
 
-    displayRightIconInformation(){
-        if(this.state.myInformation === true){
-            return {name: 'arrow-downward'}
-        }
-            return {}
+    displayMessages(){
+
     }
 
-    displayRightIconPassword(){
-        if(this.state.modificationPassword === true){
-            return {name: 'arrow-downward'}
-        }
-        return {}
-    }
 
     async removeItemSession(user, allStatus, currentStatus){
         try{
@@ -116,61 +115,63 @@ class MyProfile extends React.Component {
     }
 
     render(){
-        return (
-            <ImageBackground source={require('../Images/orange.jpeg')} style={styles.content_1}>
-                <View elevation={5} style={styles.header}>
-                    <View style={styles.imageProfil}>
-                        <Image
-                            style={styles.pear}
-                            source={require('../Images/pear.png')}
+        if(this.state.loading === true){
+            return  (
+                <View style={styles.content_1}>
+                    {this._displayLoading()}
+                </View>
+            )
+        }else {
+            return (
+                <ImageBackground source={require('../Images/orange.jpeg')} style={styles.content_1}>
+                    <View elevation={5} style={styles.header}>
+                        <View style={styles.imageProfil}>
+                            <Image
+                                style={styles.pear}
+                                source={require('../Images/pear.png')}
                             />
+                        </View>
+                        <Text style={styles.title}>{this.state.user.user_name}{'\n'}{this.state.user.user_surname}</Text>
+                        <TouchableOpacity style={styles.imageOff} onPress={() => this.displayPowerOffAlert()}>
+                            <Image
+                                style={styles.off}
+                                source={require('../Images/off.png')}
+                            />
+                        </TouchableOpacity>
                     </View>
-                        <Text style={styles.title}>MACHAVOINE{'\n'}RÉMY</Text>
-                    <TouchableOpacity style={styles.imageOff} onPress={() => this.displayPowerOffAlert()}>
-                        <Image
-                            style={styles.off}
-                            source={require('../Images/off.png')}
-                        />
-                    </TouchableOpacity>
-                </View>
-                <View style={styles.content_2}>
-                    <TouchableOpacity onPress={() => this.setState({myInformation: !this.state.myInformation})}>
-                        <ListItem
-                            key={1}
-                            title={this.list[0].title}
-                            leftIcon={{ name: this.list[0].icon }}
-                            rightIcon={this.displayRightIconInformation()}
-                            bottomDivider
-                            chevron={!this.state.myInformation}
-                        />
-                    </TouchableOpacity>
-                    {this.displayMyInformation()}
-                    <TouchableOpacity onPress={() => this.setState({
-                        modificationPassword: !this.state.modificationPassword,
-                        rightIcon: 'arrow-downward'
-                    })}>
-                        <ListItem
-                            key={2}
-                            title={this.list[1].title}
-                            leftIcon={{ name: this.list[1].icon }}
-                            rightIcon={this.displayRightIconPassword()}
-                            bottomDivider
-                            chevron={!this.state.modificationPassword}
-                        />
-                    </TouchableOpacity>
-                    {this.displayModificationPassword()}
-                    <TouchableOpacity>
-                        <ListItem
-                            key={3}
-                            title={this.list[2].title}
-                            leftIcon={{ name: this.list[2].icon }}
-                            bottomDivider
-                            chevron
-                        />
-                    </TouchableOpacity>
-                </View>
-            </ImageBackground>
-        )
+                    <View style={styles.content_2}>
+                        <TouchableOpacity onPress={() => this.displayMyInformations()}>
+                            <ListItem
+                                key={1}
+                                title={this.list[0].title}
+                                leftIcon={{name: this.list[0].icon}}
+                                bottomDivider
+                                chevron={!this.state.myInformation}
+                            />
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => this.displayModificationPassword()}>
+                            <ListItem
+                                key={2}
+                                title={this.list[1].title}
+                                leftIcon={{name: this.list[1].icon}}
+                                bottomDivider
+                                chevron={!this.state.modificationPassword}
+                            />
+                        </TouchableOpacity>
+                        {this.displayModificationPassword()}
+                        <TouchableOpacity onPress={() => this.displayMessages()}>
+                            <ListItem
+                                key={3}
+                                title={this.list[2].title}
+                                leftIcon={{name: this.list[2].icon}}
+                                bottomDivider
+                                chevron
+                            />
+                        </TouchableOpacity>
+                    </View>
+                </ImageBackground>
+            )
+        }
     }
 }
 
