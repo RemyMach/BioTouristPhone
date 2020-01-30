@@ -13,6 +13,9 @@ export default class App extends React.Component {
             'Montserrat-Medium': require('./assets/fonts/Montserrat/Montserrat-Medium.ttf'),
             'Montserrat-Thin': require('./assets/fonts/Montserrat/Montserrat-Thin.ttf'),
             'Helvetica': require('./assets/fonts/Helvetica/Helvetica.ttf'),
+            'cereal-black': require('./assets/fonts/airbnb-cereal-fonts/AirbnbCerealBlack.ttf'),
+            'cereal-light': require('./assets/fonts/airbnb-cereal-fonts/AirbnbCerealLight.ttf'),
+            'cereal-medium': require('./assets/fonts/airbnb-cereal-fonts/AirbnbCerealMedium.ttf'),
         });
     }
 

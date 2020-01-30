@@ -10,6 +10,8 @@ import ProfileContent from '../Components/ProfileContent'
 import Register from '../Components/Register'
 import Cart from '../Components/Cart'
 import Login from '../Components/Login'
+import MyInformations from "../Components/MyInformations";
+import MyPassword from "../Components/MyPassword";
 
 
 const SearchStackNavigator = createStackNavigator({
@@ -50,6 +52,18 @@ const ProfileStackNavigator = createStackNavigator({
         screen: MyProfile,
         navigationOptions: {
             headerShown: false
+        }
+    },
+    MyInformations: {
+        screen: MyInformations,
+        navigationOptions: {
+            title: "My Informations"
+        }
+    },
+    MyPassword: {
+        screen: MyPassword,
+        navigationOptions: {
+            title: "My Password"
         }
     },
     login: {

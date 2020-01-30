@@ -83,20 +83,6 @@ class MyProfile extends React.Component {
             );
     }
 
-    displayMyInformations(){
-
-
-    }
-
-    displayModificationPassword(){
-
-    }
-
-    displayMessages(){
-
-    }
-
-
     async removeItemSession(user, allStatus, currentStatus){
         try{
             await AsyncStorage.removeItem(user)
@@ -140,7 +126,7 @@ class MyProfile extends React.Component {
                         </TouchableOpacity>
                     </View>
                     <View style={styles.content_2}>
-                        <TouchableOpacity onPress={() => this.displayMyInformations()}>
+                        <TouchableOpacity onPress={() => this.props.navigation.navigate('MyInformations')}>
                             <ListItem
                                 key={1}
                                 title={this.list[0].title}
@@ -149,7 +135,7 @@ class MyProfile extends React.Component {
                                 chevron={!this.state.myInformation}
                             />
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={() => this.displayModificationPassword()}>
+                        <TouchableOpacity onPress={() => this.props.navigation.navigate('MyPassword')}>
                             <ListItem
                                 key={2}
                                 title={this.list[1].title}
@@ -158,8 +144,7 @@ class MyProfile extends React.Component {
                                 chevron={!this.state.modificationPassword}
                             />
                         </TouchableOpacity>
-                        {this.displayModificationPassword()}
-                        <TouchableOpacity onPress={() => this.displayMessages()}>
+                        <TouchableOpacity>
                             <ListItem
                                 key={3}
                                 title={this.list[2].title}
@@ -188,7 +173,7 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 30,
         color: 'grey',
-        fontFamily: 'Helvetica'
+        fontFamily: 'cereal-medium'
     },
     header: {
         flexDirection: 'row',
