@@ -132,7 +132,7 @@ class MyProfile extends React.Component {
                                 title={this.list[0].title}
                                 leftIcon={{name: this.list[0].icon}}
                                 bottomDivider
-                                chevron={!this.state.myInformation}
+                                chevron
                             />
                         </TouchableOpacity>
                         <TouchableOpacity onPress={() => this.props.navigation.navigate('MyPassword')}>
@@ -141,10 +141,10 @@ class MyProfile extends React.Component {
                                 title={this.list[1].title}
                                 leftIcon={{name: this.list[1].icon}}
                                 bottomDivider
-                                chevron={!this.state.modificationPassword}
+                                chevron
                             />
                         </TouchableOpacity>
-                        <TouchableOpacity>
+                        <TouchableOpacity onPress={() => this.props.navigation.navigate('Conversations')}>
                             <ListItem
                                 key={3}
                                 title={this.list[2].title}

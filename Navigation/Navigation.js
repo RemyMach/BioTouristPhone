@@ -10,8 +10,9 @@ import ProfileContent from '../Components/ProfileContent'
 import Register from '../Components/Register'
 import Cart from '../Components/Cart'
 import Login from '../Components/Login'
-import MyInformations from "../Components/MyInformations";
-import MyPassword from "../Components/MyPassword";
+import MyInformations from "../Components/MyInformations"
+import MyPassword from "../Components/MyPassword"
+import Conversations from "../Components/Conversations"
 
 
 const SearchStackNavigator = createStackNavigator({
@@ -69,6 +70,16 @@ const ProfileStackNavigator = createStackNavigator({
         screen: MyPassword,
         navigationOptions: {
             title: '',
+            headerStyle: {
+                shadowColor: 'transparent',
+                elevation: 0
+            }
+        }
+    },
+    Conversations: {
+        screen: Conversations,
+        navigationOptions: {
+            title: 'Conversations',
             headerStyle: {
                 shadowColor: 'transparent',
                 elevation: 0
