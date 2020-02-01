@@ -42,8 +42,6 @@ class MyInformations extends React.Component {
     }
 
     updateSessionIfUpdateWork(response){
-        console.log('jon')
-        const {status} = this.state
         console.log(response.data)
         if(response.data.status === '200'){
             console.log('--------')
@@ -98,7 +96,7 @@ class MyInformations extends React.Component {
         )
     }
 
-    _displayFailedupdateMessage(){
+    _displayFailedUpdateMessage(){
 
         if(this.state.status === '400') {
             var array = []
@@ -129,7 +127,7 @@ class MyInformations extends React.Component {
             this.initializeInputsValue()
             return (
                 <View style={styles.content_1}>
-                    {this._displayFailedupdateMessage()}
+                    {this._displayFailedUpdateMessage()}
                     <View>
                         <Text style={styles.title}>
                             Modify your personal informations
@@ -221,14 +219,6 @@ const styles = StyleSheet.create({
     loading : {
         flex:1,
         justifyContent: 'center',
-    },
-    textinput : {
-        margin: 5,
-        borderWidth: 1,
-        borderColor: '#afafaf',
-        borderRadius: 4,
-        height: 50,
-        paddingLeft: 5,
     },
     input : {
         fontSize: 22,

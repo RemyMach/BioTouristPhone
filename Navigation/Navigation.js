@@ -68,7 +68,11 @@ const ProfileStackNavigator = createStackNavigator({
     MyPassword: {
         screen: MyPassword,
         navigationOptions: {
-            title: "My Password"
+            title: '',
+            headerStyle: {
+                shadowColor: 'transparent',
+                elevation: 0
+            }
         }
     },
     login: {
