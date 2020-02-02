@@ -64,10 +64,10 @@ class Conversations extends React.Component {
 
     }
 
-    _getConversationsForTouristAndController(){
+    _getConversationsForTouristAndController(user){
         let data = {
-            'api_token': ADMIN_API_TOKEN,
-            'idUser': ADMIN_API_ID,
+            'api_token': user.api_token,
+            'idUser': user.idUser,
         }
         postRequest('message/showMessagesOfATouristController',data).then(response =>
             this.setState({
@@ -88,6 +88,8 @@ class Conversations extends React.Component {
     }
 
     displayConversationsIfUserHave(){
+        console.log(this.state.data)
+        console.log('on atten')
         if(this.state.status === '400'){
             return this.displayError()
         }else if(this.state.status === '200'){
@@ -105,18 +107,20 @@ class Conversations extends React.Component {
     }
 
     displayConversations(){
-        //console.log('je passe dans la flatlist' + this.state.data.conversations[0])
-        //console.log(this.DATA)
-        const conversations = this.state.data.conversations[0]
+
+        const conversations = this.state.data.conversations
         return (
-            <SafeAreaView>
+            <SafeAreaView >
                 <FlatList
                     data={conversations}
-                    keyExtractor={item => item.idMessage.toString()}
+                    keyExtractor={item => item[0].Announces_idAnnounce.toString()}
                     renderItem={
-                        ({item}) =>
+                        ({item, index}) =>
                             <ConversationCard
                                 conversation={item}
+                                numberConversation={index}
+                                navigation={this.props.navigation}
+                                currentStatus={this.state.current_status}
                             />
 
                     }
@@ -135,28 +139,13 @@ class Conversations extends React.Component {
             )
         }else{
             return (
-                <View>
+                <View style={styles.content_1}>
                     {this.displayConversationsIfUserHave()}
                 </View>
             )
         }
     }
 }
-
-const DATA = [
-    {
-        id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-        title: 'First Item',
-    },
-    {
-        id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-        title: 'Second Item',
-    },
-    {
-        id: '58694a0f-3da1-471f-bd96-145571e29d72',
-        title: 'Third Item',
-    },
-];
 
 const styles = StyleSheet.create({
     content_1 : {

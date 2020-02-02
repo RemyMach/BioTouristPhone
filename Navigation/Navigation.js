@@ -13,6 +13,7 @@ import Login from '../Components/Login'
 import MyInformations from "../Components/MyInformations"
 import MyPassword from "../Components/MyPassword"
 import Conversations from "../Components/Conversations"
+import Messages from "../Components/Messages";
 
 
 const SearchStackNavigator = createStackNavigator({
@@ -80,6 +81,16 @@ const ProfileStackNavigator = createStackNavigator({
         screen: Conversations,
         navigationOptions: {
             title: 'Conversations',
+            headerStyle: {
+                shadowColor: 'transparent',
+                elevation: 0
+            }
+        }
+    },
+    Messages: {
+        screen: Messages,
+        navigationOptions: {
+            title: '',
             headerStyle: {
                 shadowColor: 'transparent',
                 elevation: 0
