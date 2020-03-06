@@ -2,7 +2,7 @@ import { API_URL } from 'react-native-dotenv'
 import axios from 'axios'
 
 export function postRequest(path, data){
-    return axios.post('http://192.168.1.47:8001/api/' + path,{
+    return axios.post('http://172.20.10.3:8001/api/' + path,{
         body: data
     })
 }
