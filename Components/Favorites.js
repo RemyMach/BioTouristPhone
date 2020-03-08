@@ -3,6 +3,7 @@ import React from 'react'
 import {StyleSheet, Text, FlatList, AsyncStorage, View, ActivityIndicator, SafeAreaView} from 'react-native'
 import Constants from "expo-constants";
 import {postRequest} from "../API/BioTouristAPI";
+import FavoritesCard from "./FavoritesCard";
 import ConversationCard from "./ConversationCard";
 
 const styles = StyleSheet.create({
@@ -49,9 +50,8 @@ class Favorites extends React.Component {
     }
 
     getFavorites(){
-        console.log('je passe dans le getFavorites')
-        const current_status = this.state.current_status.status_user_label
         const user = this.state.user
+        const current_status = this.state.current_status.status_user_label
         if(current_status === 'Tourist' || current_status === 'Controller'){
             this._selectFavorites(user)
         }
@@ -63,19 +63,16 @@ class Favorites extends React.Component {
             'api_token': user.api_token,
             'idUser': user.idUser,
         }
-        postRequest('favori/showFavorisOfAUser',data).then(
-            response =>
-            this.setState({
+        postRequest('favori/showFavorisOfAUser', data).then(
+            response => this.setState({
                 data : response.data.favoris,
                 status : response.data.status,
                 loading: false
                 })
         )
-            /*if (this.state.data != 'undefined'){
-                console.log('mes data prout prout ')
-                console.log(this.state.data)
-                this.displayConversations()
-            }*/
+        if (this.state.data != 'undefined'){
+            this.displayFavorites()
+        }
     }
 
     _displayLoading() {
@@ -88,22 +85,23 @@ class Favorites extends React.Component {
 
     displayFavorites(){
         console.log('je suis dans le display Favorites')
-        console.log(this.state.data)
-        /*return (
+        console.log(this.state.user)
+        return (
             <SafeAreaView>
                 <FlatList
                     data={this.state.data}
-                    renderItem={({ item }) => (
-                        <ListItem
-                            roundAvatar
-                            title={`${item.announce_name} ${item.announce_price}`}
-                            subtitle={item.announce_comment}
-                            avatar={ item.announce_img }
+                    keyExtractor={item => item.idFavori.toString()}
+                    renderItem={({ item, index }) => (
+                        <FavoritesCard
+                            dataUser={this.state.user}
+                            favorite={item}
+                            navigation={this.props.navigation}
+                            currentStatus={this.state.current_status}
                         />
                     )}
                 />
             </SafeAreaView>
-        )*/
+        )
     }
 
     render() {
@@ -116,8 +114,8 @@ class Favorites extends React.Component {
         } else {
             return (
                 <View style={styles.content_1}>
-                   {this.displayFavorites()}
                    <Text>Remy la grosse tarlouuuuuzeee</Text>
+                   {this.displayFavorites()}
                 </View>
             )
         }
