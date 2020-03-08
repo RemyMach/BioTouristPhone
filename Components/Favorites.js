@@ -63,17 +63,16 @@ class Favorites extends React.Component {
         }
         postRequest('favori/showFavorisOfAUser',data).then(
             response =>
-            console.log(response.data.favoris)
-            // this.setState({
-            //     data : response.data.favoris,
-            //     status : response.data.status,
-            //     loading: false
-            //     }
-            // )
-            // response => this.state.data = response.data.favoris
+            this.setState({
+                data : response.data.favoris,
+                status : response.data.status,
+                loading: false
+                })
         )
-            if (this.state.data !== 'undefined'){
-              this.displayConversations()
+            if (this.state.data != 'undefined'){
+                console.log('mes data prout prout ')
+                console.log(this.state.data)
+                this.displayConversations()
             }
     }
 
@@ -86,10 +85,8 @@ class Favorites extends React.Component {
     }
 
     displayConversations(){
-        console.log('prout')
+        console.log('mes data prout prout 2 ')
         console.log(this.state.data)
-
-
         return (
             <SafeAreaView>
                 <FlatList
