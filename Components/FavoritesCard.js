@@ -15,16 +15,22 @@ class FavoritesCard extends React.Component {
 
     render() {
         return (
-            <View style={styles.container}>
-                <Text style={styles.title}>
-                    {this.props.favorite.announce_name} {this.props.favorite.announce_price}$ {'\n'}
-                </Text>
-                <Text style={styles.dataAnnounce}>
-                    {this.props.favorite.announce_adresse}
-                    {this.props.favorite.announce_comment}
-                    {this.props.favorite.announce_city}
-                </Text>
-                <View style={styles.button}>
+            <View style={styles.content_1}>
+                <Text style={styles.user_name}>{this.props.favorite.announce_name} {this.props.favorite.announce_price}$</Text>
+                <View>
+                    <Text style={styles.announce_subject}>
+                        {this.props.favorite.announce_city}
+                    </Text>
+                    <Text style={styles.announce_subject}>
+                        {this.props.favorite.announce_adresse}
+                    </Text>
+                </View>
+                <View>
+                    <Text style={styles.announce_subject}>
+                        {this.props.favorite.announce_comment}
+                    </Text>
+                </View>
+                <View style={styles.content_2}>
                     <Button title="Delete" onPress={
                         () => postRequest('favori/destroy', {'api_token': this.props.dataUser.api_token, 'idUser': this.props.dataUser.idUser, 'idFavori': this.props.favorite.idFavori}).then(
                             () => this.props.navigation.dispatch(
@@ -65,6 +71,50 @@ const styles = StyleSheet.create({
         textAlign: 'right',
         justifyContent: 'space-between',
     },
+    content_1 : {
+        margin: 10,
+        flex:1,
+        borderWidth: 2,
+        borderRadius: 5,
+        paddingTop: 10,
+        paddingBottom: 10,
+        backgroundColor: '#D4EDDA',
+    },
+    content_2 : {
+        margin: 10,
+        flex:1,
+        flexDirection: 'row',
+        alignItems:'center',
+        padding: 10,
+        backgroundColor: '#D4EDDA',
+    },
+    icon: {
+        width: 25,
+        height: 25
+    },
+    chevron: {
+        flex:1,
+        alignItems: 'flex-end',
+    },
+    font: {
+        color: 'grey',
+        fontFamily: 'cereal-medium'
+    },
+    announce_subject: {
+        flex: 1,
+        alignItems: 'flex-end',
+    },
+    user_name: {
+        borderBottomWidth: 1,
+        paddingLeft: 10,
+        color: 'black',
+        fontFamily: 'cereal-medium'
+    },
+    date: {
+        color: 'grey',
+        fontFamily: 'cereal-medium',
+        paddingLeft: 10
+    }
 })
 
 export default FavoritesCard
