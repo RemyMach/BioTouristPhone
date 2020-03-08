@@ -49,6 +49,7 @@ class Favorites extends React.Component {
     }
 
     getFavorites(){
+        console.log('je passe dans le getFavorites')
         const current_status = this.state.current_status.status_user_label
         const user = this.state.user
         if(current_status === 'Tourist' || current_status === 'Controller'){
@@ -57,6 +58,7 @@ class Favorites extends React.Component {
     }
 
     _selectFavorites(user){
+        console.log('je passe dans le _selectFavorites')
         let data = {
             'api_token': user.api_token,
             'idUser': user.idUser,
@@ -69,11 +71,11 @@ class Favorites extends React.Component {
                 loading: false
                 })
         )
-            if (this.state.data != 'undefined'){
+            /*if (this.state.data != 'undefined'){
                 console.log('mes data prout prout ')
                 console.log(this.state.data)
                 this.displayConversations()
-            }
+            }*/
     }
 
     _displayLoading() {
@@ -84,10 +86,10 @@ class Favorites extends React.Component {
         )
     }
 
-    displayConversations(){
-        console.log('mes data prout prout 2 ')
+    displayFavorites(){
+        console.log('je suis dans le display Favorites')
         console.log(this.state.data)
-        return (
+        /*return (
             <SafeAreaView>
                 <FlatList
                     data={this.state.data}
@@ -101,7 +103,7 @@ class Favorites extends React.Component {
                     )}
                 />
             </SafeAreaView>
-        )
+        )*/
     }
 
     render() {
@@ -114,7 +116,7 @@ class Favorites extends React.Component {
         } else {
             return (
                 <View style={styles.content_1}>
-                   {this.getFavorites()}
+                   {this.displayFavorites()}
                    <Text>Remy la grosse tarlouuuuuzeee</Text>
                 </View>
             )

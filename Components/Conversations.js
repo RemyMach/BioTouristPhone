@@ -49,7 +49,6 @@ class Conversations extends React.Component {
     }
 
     _getConversationsForASeller(user){
-        console.log('pomme')
         let data = {
             'api_token': user.api_token,
             'idUser': user.idUser,
