@@ -114,8 +114,7 @@ class Favorites extends React.Component {
         } else {
             return (
                 <View style={styles.content_1}>
-                   <Text>Remy la grosse tarlouuuuuzeee</Text>
-                   {this.displayFavorites()}
+                    {this.displayFavorites()}
                 </View>
             )
         }
