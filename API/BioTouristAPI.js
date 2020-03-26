@@ -1,8 +1,11 @@
 import { API_URL } from 'react-native-dotenv'
 import axios from 'axios'
+import { ADMIN_API_TOKEN } from 'react-native-dotenv'
+import { ADMIN_API_ID } from 'react-native-dotenv'
+import { NavigationActions, StackActions } from 'react-navigation';
 
 export function postRequest(path, data){
-    return axios.post('http://192.168.43.146:8001/api/' + path,{
+    return axios.post('http://api.biotourist.space:8001/api/' + path,{
         body: data
     })
 }
