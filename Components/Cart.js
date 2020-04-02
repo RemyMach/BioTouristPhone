@@ -1,5 +1,17 @@
 import React from 'react'
-import {ActivityIndicator, AsyncStorage, Button, StyleSheet, Text, View, Alert, ImageBackground} from 'react-native'
+import {
+    ActivityIndicator,
+    AsyncStorage,
+    Button,
+    StyleSheet,
+    Text,
+    View,
+    Alert,
+    ImageBackground,
+    ScrollView,
+    SafeAreaView,
+    TouchableOpacity
+} from 'react-native'
 import Constants from "expo-constants";
 import {NavigationActions, StackActions} from "react-navigation"
 
@@ -9,10 +21,10 @@ class Cart extends React.Component {
     {
         super(props)
         this.temporary = {
-            idannounce: null,
-            announce_name: null,
-            quantity: null,
-            ammount: null,
+            idannounce: "",
+            announce_name: "",
+            quantity: "",
+            ammount: "",
         }
         this.state = {
             loading: true,
@@ -107,7 +119,7 @@ class Cart extends React.Component {
     }
     product2(){
         this.temporary.idannounce = 2
-        this.temporary.announce_name = "Bannane"
+        this.temporary.announce_name = "Banane"
         this.temporary.quantity = 4
         this.temporary.max = 10
         this.temporary.ammount= 2.5
@@ -116,7 +128,7 @@ class Cart extends React.Component {
 
     product3(){
         this.temporary.idannounce = 3
-        this.temporary.announce_name = "Péche"
+        this.temporary.announce_name = "Pêche"
         this.temporary.quantity = 1
         this.temporary.max = 3
         this.temporary.ammount= 10
@@ -157,24 +169,34 @@ class Cart extends React.Component {
             </ImageBackground>
         )}else{
             return(
-                <View style={{justifyContent:'center',alignItems:'center'}}>
-                    <Text style={styles.content_1}>Cart</Text>
-                    <Text > </Text>
+                <SafeAreaView style={styles.container}>
 
+                <View style={{flex: 2}}>
+                    <Text style={styles.content_1}>Cart</Text>
+                    <View style={styles.categorie}>
+                        <Text style={{fontSize: 20}}>Name</Text>
+                        <Text style={{fontSize: 20}}>Quantity</Text>
+                        <Text style={{fontSize: 20}}>Price</Text>
+                    </View>
+                    <ScrollView>
                     {
                         this.state.value.map(( element, index ) =>
                             <View style={styles.content_2}>
-                                <Text>{element.announce_name} {element.quantity} {element.ammount * element.quantity}</Text>
+                                <View style={styles.content_3}>
+                                    <Text style={{fontSize : 30}}>{element.announce_name} </Text>
+                                    <Text style={{fontSize : 30}}>{element.ammount * element.quantity}$ </Text>
+                                </View>
+                                <Text style={{fontSize : 30, textAlign:'center'}}>{element.quantity}</Text>
                                 <Button
                                     onPress={() => this.removeItemByIndexSession(index)}
-                                    title="X"
+                                    title="Remove"
                                     color="#A0545B"
                                 />
                             </View>
                         )
-
                     }
-                    <View style={{justifyContent:'center',alignItems:'center',flexDirection: 'row'}}>
+                    </ScrollView>
+                    <View style={{justifyContent:'center',alignItems:'center',flexDirection: 'row',}}>
                         <Button
                             onPress={() => this.product2()}
                             title="Product2"
@@ -191,7 +213,7 @@ class Cart extends React.Component {
                             color="#841584"
                         />
                     </View>
-                    <View style={{justifyContent:'center',alignItems:'center',flexDirection: 'row'}}>
+                    <View style={{justifyContent:'center',alignItems:'center',flexDirection: 'row', }}>
                         <Button
                           onPress={() => this.destroyCart()}
                           title="Supprimer Panier"
@@ -199,11 +221,12 @@ class Cart extends React.Component {
                         />
                         <Button
                             onPress={() => console.log(this.state.value)}
-                            title="get Annonce"
+                            title="Payer"
                             color="#841584"
                         />
                     </View>
                 </View>
+                </SafeAreaView>
             )
         }
     }
@@ -211,70 +234,47 @@ class Cart extends React.Component {
 
 const styles = StyleSheet.create({
     content_1 : {
-        marginTop : Constants.statusBarHeight,
+        marginTop : 5,
         fontSize: 60,
         borderWidth: 1,
         borderRadius: 6,
         backgroundColor: "#FFFFFF",
         color: "#20232a",
         textAlign: "center",
-        fontWeight: "bold"
-        ,
+        //fontWeight: "bold"
+
     },
     content_2 : {
-        backgroundColor: "#DCDCDC",
-        marginTop : 5,
-        width: 1000,
-        height: 60,
-        fontSize: 150,
-        justifyContent:'center',
-        alignItems:'center',
-        flexDirection: 'row',
+        //height: 50,
+        //flex: 3,
+        //alignItems:'center',
+        //flexDirection: 'row',
+        paddingLeft: 2,
         borderWidth: 0.1,
         borderRadius: 6,
+        backgroundColor: "#DCDCDC",
+        marginTop : 5,
+        marginHorizontal: 1,
+        //flexWrap: "wrap"
 
-    }
-});
-
-const button = StyleSheet.create({
+    },
+    content_3 : {
+        flexDirection: 'row',
+        justifyContent: 'space-between'
+    },
     container: {
         flex: 1,
-        marginTop: Constants.statusBarHeight,
-        marginHorizontal: 16,
-
+       // marginTop: Constants.statusBarHeight,
     },
-    title: {
-        textAlign: 'center',
-        marginVertical: 8,
-        borderWidth: 1,
-        borderRadius: 6,
-        backgroundColor: "#FFFFFF",
-        color: "#20232a",
-        fontWeight: "bold"
+    button: {
+        alignItems: "center",
+        backgroundColor: "#DDDDDD",
+        padding: 10
     },
-    fixToText: {
+    categorie: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-    },
-    separator: {
-        marginVertical: 8,
-        borderBottomColor: '#737373',
-        borderBottomWidth: StyleSheet.hairlineWidth,
-    },
-    submit:{
-        marginRight:40,
-        marginLeft:40,
-        marginTop:10,
-        paddingTop:20,
-        paddingBottom:20,
-        backgroundColor:'#68a0cf',
-        borderRadius:10,
-        borderWidth: 1,
-        borderColor: '#fff'
-    },
-    submitText:{
-        color:'#fff',
-        textAlign:'center',
+
     }
 });
 
