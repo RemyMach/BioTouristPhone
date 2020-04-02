@@ -1,15 +1,19 @@
 import React from 'react'
 import {ActivityIndicator, AsyncStorage, Button, StyleSheet, Text, View, Alert, ImageBackground} from 'react-native'
 import Constants from "expo-constants";
-import {NavigationActions, StackActions} from "react-navigation";
-import MyProfile from './MyProfile'
-import Auth from './Auth'
+import {NavigationActions, StackActions} from "react-navigation"
 
 class Cart extends React.Component {
 
     constructor(props)
     {
         super(props)
+        this.temporary = {
+            idannounce: null,
+            announce_name: null,
+            quantity: null,
+            ammount: null,
+        }
         this.state = {
             loading: true,
             value: null,
@@ -20,26 +24,10 @@ class Cart extends React.Component {
     async getSessionValueDependingOnKey(key){
         try{
             const value = await AsyncStorage.getItem(key).then(result => result);
-            console.log(value);
             this.setState({
                 value: JSON.parse(value),
                 loading: false
             })
-            //console.log(this.state.value)
-        }catch (error) {
-            console.error('AsyncStorage error: ' + error.message)
-        }
-    }
-
-    async storeDataInSession(){
-        try{
-            await AsyncStorage.setItem('cart', JSON.stringify([{
-                idannounce: 1,
-                announce_name: "Banane",
-                quantity: 2,
-                annount: 13.4,
-            }]));
-
         }catch (error) {
             console.error('AsyncStorage error: ' + error.message)
         }
@@ -48,12 +36,12 @@ class Cart extends React.Component {
     async pushDataInSession(){
         try {
             const productToBeSaved = {
-                idannounce: 2,
-                announce_name: "Pomme",
-                quantity: 3,
-                annount: 20.4, }
+                idannounce: this.temporary.idannounce,
+                announce_name: this.temporary.announce_name,
+                quantity: this.temporary.quantity,
+                max: this.temporary.max,
+                ammount:  this.temporary.ammount}
             const existingProducts = await AsyncStorage.getItem("cart")
-            console.log(existingProducts)
             let newProduct = JSON.parse(existingProducts);
             if( !newProduct ){
                 newProduct = []
@@ -68,10 +56,14 @@ class Cart extends React.Component {
     async removeItemByIndexSession(index){
         try{
             var session = this.state.value
-            var allindex = index
-            session = session.filter((element , index) => element && index !== allindex)
-            console.log(session)
-            await AsyncStorage.setItem('cart', JSON.stringify(session));
+            var deletedindex = index
+            let sessions = session.filter((element , index) => element && index !== deletedindex)
+            if (sessions[0] == undefined){
+                await AsyncStorage.removeItem('cart')
+            }
+            else {
+                await AsyncStorage.setItem('cart', JSON.stringify(sessions));
+            }
             this.getCart('cart')
         }catch (error) {
             console.error('AsyncStorage error: ' + error.message)
@@ -88,7 +80,6 @@ class Cart extends React.Component {
                 value: JSON.parse(value),
                 loading: false
             })
-            console.log(this.state.value)
             this.getCart()
         }catch (error) {
             console.error('AsyncStorage error: ' + error.message)
@@ -98,10 +89,6 @@ class Cart extends React.Component {
     getCart(){
         this.getSessionValueDependingOnKey('cart')
     }
-    addCart(){
-        this.storeDataInSession();
-        this.getCart('cart')
-    }
     pushCart(){
         this.pushDataInSession();
         this.getCart('cart')
@@ -109,18 +96,44 @@ class Cart extends React.Component {
     destroyCart(){
         this.removeItemSession()
     }
-    initializeInputsValue(){
 
-        this.email = this.state.user.email
+    product1(){
+        this.temporary.idannounce = 1
+        this.temporary.announce_name = "Pomme"
+        this.temporary.quantity = 3
+        this.temporary.max = 4
+        this.temporary.ammount= 20.5
+        this.pushCart()
+    }
+    product2(){
+        this.temporary.idannounce = 2
+        this.temporary.announce_name = "Bannane"
+        this.temporary.quantity = 4
+        this.temporary.max = 10
+        this.temporary.ammount= 2.5
+        this.pushCart()
     }
 
+    product3(){
+        this.temporary.idannounce = 3
+        this.temporary.announce_name = "Péche"
+        this.temporary.quantity = 1
+        this.temporary.max = 3
+        this.temporary.ammount= 10
+        this.pushCart()
+    }
 
+    product4(){
+        this.temporary.idannounce = 4
+        this.temporary.announce_name = "Poire"
+        this.temporary.quantity = 5
+        this.temporary.max = 25
+        this.temporary.ammount= 4.5
+        this.pushCart()
+    }
 
     render() {
-        //this.getSessionValueDependingOnKey('cart')
-        //this.removeItemSession();
-        //console.log()
-        if (this.state.value === null ){
+        if (this.state.value === null){
         return (
 
             <ImageBackground source={require('../Images/multifruit.jpg')} style={background.content_1}>
@@ -131,7 +144,7 @@ class Cart extends React.Component {
                 </View>
                 <View style={{justifyContent:'center',alignItems:'center',flexDirection: 'row'}}>
                     <Button
-                        onPress={() => this.addCart()}
+                        onPress={() => this.product1()}
                         title="Add Annonce"
                         color="#841584"
                     />
@@ -150,8 +163,8 @@ class Cart extends React.Component {
 
                     {
                         this.state.value.map(( element, index ) =>
-                            <View style={{justifyContent:'center',alignItems:'center',flexDirection: 'row'}}>
-                                <Text>{index} {element.announce_name} {element.quantity} {element.annount}</Text>
+                            <View style={styles.content_2}>
+                                <Text>{element.announce_name} {element.quantity} {element.ammount * element.quantity}</Text>
                                 <Button
                                     onPress={() => this.removeItemByIndexSession(index)}
                                     title="X"
@@ -162,16 +175,21 @@ class Cart extends React.Component {
 
                     }
                     <View style={{justifyContent:'center',alignItems:'center',flexDirection: 'row'}}>
-                    <Button
-                        onPress={() => this.addCart()}
-                        title="Add Annonce"
-                        color="#841584"
-                    />
-                    <Button
-                        onPress={() => this.pushCart()}
-                        title="Add other Annonce"
-                        color="#841584"
-                    />
+                        <Button
+                            onPress={() => this.product2()}
+                            title="Product2"
+                            color="#841584"
+                        />
+                        <Button
+                            onPress={() => this.product3()}
+                            title="Product3"
+                            color="#841584"
+                        />
+                        <Button
+                            onPress={() => this.product4()}
+                            title="Product4"
+                            color="#841584"
+                        />
                     </View>
                     <View style={{justifyContent:'center',alignItems:'center',flexDirection: 'row'}}>
                         <Button
@@ -194,7 +212,7 @@ class Cart extends React.Component {
 const styles = StyleSheet.create({
     content_1 : {
         marginTop : Constants.statusBarHeight,
-        fontSize: 75,
+        fontSize: 60,
         borderWidth: 1,
         borderRadius: 6,
         backgroundColor: "#FFFFFF",
@@ -203,6 +221,19 @@ const styles = StyleSheet.create({
         fontWeight: "bold"
         ,
     },
+    content_2 : {
+        backgroundColor: "#DCDCDC",
+        marginTop : 5,
+        width: 1000,
+        height: 60,
+        fontSize: 150,
+        justifyContent:'center',
+        alignItems:'center',
+        flexDirection: 'row',
+        borderWidth: 0.1,
+        borderRadius: 6,
+
+    }
 });
 
 const button = StyleSheet.create({
