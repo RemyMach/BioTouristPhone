@@ -63,7 +63,9 @@ class Login extends React.Component {
     async storeDataInSession(){
         try{
 
-            await AsyncStorage.setItem('cart', JSON.stringify())
+            await AsyncStorage.setItem('user', JSON.stringify(this.state.data.user))
+            await AsyncStorage.setItem('user_status', JSON.stringify(this.state.data.user_status[0]))
+            await AsyncStorage.setItem('user_current_status', JSON.stringify(this.state.data.user_current_status))
             this.props.navigation.dispatch(
                 StackActions.reset({
                     index: 0,

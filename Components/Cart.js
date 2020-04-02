@@ -12,28 +12,11 @@ class Cart extends React.Component {
         super(props)
         this.state = {
             loading: true,
-            value: undefined,
+            value: null,
         }
 
 
     }
-
-    async storeDataInSession(){
-        try{
-            await AsyncStorage.setItem('cart', JSON.stringify({
-                "idannounce"
-                    : 1,
-                "quantity"
-                    : 2,
-                "annount"
-                    : 13.4,
-            }));
-
-        }catch (error) {
-            console.error('AsyncStorage error: ' + error.message)
-        }
-    }
-
     async getSessionValueDependingOnKey(key){
         try{
             const value = await AsyncStorage.getItem(key).then(result => result);
@@ -42,7 +25,58 @@ class Cart extends React.Component {
                 value: JSON.parse(value),
                 loading: false
             })
+            //console.log(this.state.value)
+        }catch (error) {
+            console.error('AsyncStorage error: ' + error.message)
+        }
+    }
 
+    async storeDataInSession(){
+        try{
+            await AsyncStorage.setItem('cart', JSON.stringify([{
+                idannounce: 1,
+                announce_name: "Banane",
+                quantity: 2,
+                annount: 13.4,
+            }]));
+
+        }catch (error) {
+            console.error('AsyncStorage error: ' + error.message)
+        }
+    }
+
+    async pushDataInSession(){
+        try {
+            const productToBeSaved = {
+                idannounce: 2,
+                announce_name: "Pomme",
+                quantity: 3,
+                annount: 20.4, }
+            const existingProducts = await AsyncStorage.getItem("cart")
+            console.log(existingProducts)
+            let newProduct = JSON.parse(existingProducts);
+            if( !newProduct ){
+                newProduct = []
+            }
+            newProduct.push( productToBeSaved )
+            AsyncStorage.setItem("cart", JSON.stringify(newProduct) )
+            this.getCart('cart')
+        }catch(error){
+            console.error('AsyncStorage error: ' + error.message)
+        }
+    }
+
+    async removeItemSession(){
+        try{
+
+            const value = await AsyncStorage.removeItem('cart')
+
+            this.setState({
+                value: JSON.parse(value),
+                loading: false
+            })
+            console.log(this.state.value)
+            this.getCart()
         }catch (error) {
             console.error('AsyncStorage error: ' + error.message)
         }
@@ -51,26 +85,44 @@ class Cart extends React.Component {
     getCart(){
         this.getSessionValueDependingOnKey('cart')
     }
-
+    addCart(){
+        this.storeDataInSession();
+        this.getCart('cart')
+    }
+    pushCart(){
+        this.pushDataInSession();
+        this.getCart('cart')
+    }
+    destroyCart(){
+        this.removeItemSession()
+    }
     initializeInputsValue(){
 
         this.email = this.state.user.email
     }
 
+
+
     render() {
-        //this.getCart();
         //this.getSessionValueDependingOnKey('cart')
-        console.log(this.state.value);
-        if (this.state.value === "undefined"){
+        //this.removeItemSession();
+        //console.log()
+        if (this.state.value === null ){
         return (
+
             <ImageBackground source={require('../Images/multifruit.jpg')} style={background.content_1}>
                 <View style={{justifyContent:'center',alignItems:'center'}}>
+
                     <Text style={styles.content_1}>Cart</Text>
                     <Text style={styles.content_1}>Cart is empty</Text>
                     <Button
-                        style={button.content_1}
-                        //onPress={this.storeDataInSession()}
-                        title="Allez Sur la page Annonce"
+                        onPress={() => this.addCart()}
+                        title="Add Annonce"
+                        color="#841584"
+                    />
+                    <Button
+                        onPress={() => this.getCart()}
+                        title="get Annonce"
                         color="#841584"
                     />
                 </View>
@@ -78,13 +130,31 @@ class Cart extends React.Component {
         )}else{
             return(
                 <View style={{justifyContent:'center',alignItems:'center'}}>
-                <Text style={styles.content_1}>Pas ok</Text>
-                <Button
-                    style={button.content_1}
-                    onPress={this.storeDataInSession()}
-                    title="Allez Sur la page Annonce"
+                    <Text style={styles.content_1}>Cart</Text>
+                    <Text > </Text>
+                    {
+                        this.state.value.map(element => <Text>{element.announce_name}</Text>)
+                    }
+                    <Button
+                    onPress={() => this.destroyCart()}
+                    title="Supprimer Panier"
                     color="#841584"
                         />
+                    <Button
+                        onPress={() => this.addCart()}
+                        title="Add Annonce"
+                        color="#841584"
+                    />
+                    <Button
+                        onPress={() => this.getCart()}
+                        title="Get Annonce"
+                        color="#841584"
+                    />
+                    <Button
+                        onPress={() => this.pushCart()}
+                        title="Add other Annonce"
+                        color="#841584"
+                    />
                 </View>
             )
         }
