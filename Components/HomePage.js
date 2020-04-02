@@ -1,20 +1,20 @@
-import React from 'react'
-import { StyleSheet, Text } from 'react-native'
+import React from 'react';
+import { StyleSheet, Text, View } from 'react-native';
 import Constants from "expo-constants";
 
 class HomePage extends React.Component {
 
     render() {
-        return (
-            <Text style={styles.content_1}> The Home page </Text>
-        )
+      return (
+        <View style={styles.container}>
+          <Text style={styles.red}>just red</Text>
+        </View>
+      );
     }
 }
 
 const styles = StyleSheet.create({
-    content_1 : {
-        marginTop : Constants.statusBarHeight
-    },
-})
+  
+});
 
 export default HomePage
