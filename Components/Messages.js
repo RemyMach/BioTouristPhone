@@ -127,7 +127,6 @@ class Messages extends React.Component {
                 </View>
             )
         }else {
-            console.log(this.state.current_status)
             return (
                     <KeyboardAvoidingView
                         style={styles.keyboardAvoidingView}
@@ -163,7 +162,6 @@ const styles = StyleSheet.create({
     content_1 : {
         flex:1,
         backgroundColor: 'white',
-        borderWidth: 2,
     },
     input: {
         borderWidth: 2,
