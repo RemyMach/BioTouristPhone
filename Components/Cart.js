@@ -65,6 +65,19 @@ class Cart extends React.Component {
             console.error('AsyncStorage error: ' + error.message)
         }
     }
+    async removeItemByIndexSession(index){
+        try{
+            var session = this.state.value
+            var allindex = index
+            session = session.filter((element , index) => element && index !== allindex)
+            console.log(session)
+            await AsyncStorage.setItem('cart', JSON.stringify(session));
+            this.getCart('cart')
+        }catch (error) {
+            console.error('AsyncStorage error: ' + error.message)
+        }
+
+    }
 
     async removeItemSession(){
         try{
@@ -115,6 +128,8 @@ class Cart extends React.Component {
 
                     <Text style={styles.content_1}>Cart</Text>
                     <Text style={styles.content_1}>Cart is empty</Text>
+                </View>
+                <View style={{justifyContent:'center',alignItems:'center',flexDirection: 'row'}}>
                     <Button
                         onPress={() => this.addCart()}
                         title="Add Annonce"
@@ -132,22 +147,24 @@ class Cart extends React.Component {
                 <View style={{justifyContent:'center',alignItems:'center'}}>
                     <Text style={styles.content_1}>Cart</Text>
                     <Text > </Text>
+
                     {
-                        this.state.value.map(element => <Text>{element.announce_name}</Text>)
+                        this.state.value.map(( element, index ) =>
+                            <View style={{justifyContent:'center',alignItems:'center',flexDirection: 'row'}}>
+                                <Text>{index} {element.announce_name} {element.quantity} {element.annount}</Text>
+                                <Button
+                                    onPress={() => this.removeItemByIndexSession(index)}
+                                    title="X"
+                                    color="#A0545B"
+                                />
+                            </View>
+                        )
+
                     }
-                    <Button
-                    onPress={() => this.destroyCart()}
-                    title="Supprimer Panier"
-                    color="#841584"
-                        />
+                    <View style={{justifyContent:'center',alignItems:'center',flexDirection: 'row'}}>
                     <Button
                         onPress={() => this.addCart()}
                         title="Add Annonce"
-                        color="#841584"
-                    />
-                    <Button
-                        onPress={() => this.getCart()}
-                        title="Get Annonce"
                         color="#841584"
                     />
                     <Button
@@ -155,6 +172,19 @@ class Cart extends React.Component {
                         title="Add other Annonce"
                         color="#841584"
                     />
+                    </View>
+                    <View style={{justifyContent:'center',alignItems:'center',flexDirection: 'row'}}>
+                        <Button
+                          onPress={() => this.destroyCart()}
+                          title="Supprimer Panier"
+                          color="#841584"
+                        />
+                        <Button
+                            onPress={() => console.log(this.state.value)}
+                            title="get Annonce"
+                            color="#841584"
+                        />
+                    </View>
                 </View>
             )
         }
