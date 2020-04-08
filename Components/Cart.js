@@ -1,6 +1,5 @@
 import React from 'react'
 import {
-    ActivityIndicator,
     AsyncStorage,
     Button,
     StyleSheet,
@@ -10,7 +9,6 @@ import {
     ImageBackground,
     ScrollView,
     SafeAreaView,
-    TouchableOpacity
 } from 'react-native'
 import Constants from "expo-constants";
 import {NavigationActions, StackActions} from "react-navigation"
@@ -20,6 +18,7 @@ class Cart extends React.Component {
     constructor(props)
     {
         super(props)
+        this.getCart()
         this.temporary = {
             idannounce: "",
             announce_name: "",
@@ -95,6 +94,34 @@ class Cart extends React.Component {
             this.getCart()
         }catch (error) {
             console.error('AsyncStorage error: ' + error.message)
+        }
+    }
+    async cartUpQuantity(key){
+        console.log(this.state.value[key].quantity)
+        if (this.state.value[key].quantity === this.state.value[key].max){
+            
+            Alert.alert(
+                'Biotourist',
+                'You have the max quantity of this announce')
+        }else{
+            this.state.value[key].quantity = this.state.value[key].quantity + 1
+            console.log(this.state.value[key].quantity)
+            let session = this.state.value
+            await AsyncStorage.setItem('cart', JSON.stringify(session));
+            this.getCart()
+        }
+    }
+    async cartDownQuantity(key){
+        console.log(this.state.value[key].quantity)
+        if (this.state.value[key].quantity === 1){
+            let index = key
+            this.removeItemByIndexSession(index)
+        }else{
+            this.state.value[key].quantity = this.state.value[key].quantity - 1
+            console.log(this.state.value[key].quantity)
+            let session = this.state.value
+            await AsyncStorage.setItem('cart', JSON.stringify(session));
+            this.getCart()
         }
     }
 
@@ -186,7 +213,20 @@ class Cart extends React.Component {
                                     <Text style={{fontSize : 30}}>{element.announce_name} </Text>
                                     <Text style={{fontSize : 30}}>{element.ammount * element.quantity}$ </Text>
                                 </View>
-                                <Text style={{fontSize : 30, textAlign:'center'}}>{element.quantity}</Text>
+                                <View style={{justifyContent:'space-between',alignItems:'center',flexDirection: 'row',}}>
+                                    <Button
+                                        onPress={() => this.cartDownQuantity(index)}
+                                        //source={require('../Images/less.svg')}/>
+                                        title='-'
+
+                                    />
+                                    <Text style={{fontSize : 30, textAlign:'center'}}>{element.quantity}</Text>
+                                    <Button
+                                        onPress={() => this.cartUpQuantity(index)}
+                                        //source={require('../Images/plus.svg')}/>
+                                        title='+'
+                                    />
+                                </View>
                                 <Button
                                     onPress={() => this.removeItemByIndexSession(index)}
                                     title="Remove"
@@ -200,29 +240,29 @@ class Cart extends React.Component {
                         <Button
                             onPress={() => this.product2()}
                             title="Product2"
-                            color="#841584"
+                            color="#000000"
                         />
                         <Button
                             onPress={() => this.product3()}
                             title="Product3"
-                            color="#841584"
+                            color="#000000"
                         />
                         <Button
                             onPress={() => this.product4()}
                             title="Product4"
-                            color="#841584"
+                            color="#000000"
+                        />
+                        <Button
+                            onPress={() => this.destroyCart()}
+                            title="Supprimer Panier"
+                            color="#000000"
                         />
                     </View>
-                    <View style={{justifyContent:'center',alignItems:'center',flexDirection: 'row', }}>
-                        <Button
-                          onPress={() => this.destroyCart()}
-                          title="Supprimer Panier"
-                          color="#841584"
-                        />
+                    <View style={styles.paiementButton}>
                         <Button
                             onPress={() => console.log(this.state.value)}
                             title="Payer"
-                            color="#841584"
+                            textcolor="gray"
                         />
                     </View>
                 </View>
@@ -236,26 +276,21 @@ const styles = StyleSheet.create({
     content_1 : {
         marginTop : 5,
         fontSize: 60,
-        borderWidth: 1,
-        borderRadius: 6,
+        borderWidth: 0.5,
+        borderRadius: 20,
         backgroundColor: "#FFFFFF",
-        color: "#20232a",
         textAlign: "center",
-        //fontWeight: "bold"
+        color: 'grey',
+        fontFamily: 'cereal-medium'
 
     },
     content_2 : {
-        //height: 50,
-        //flex: 3,
-        //alignItems:'center',
-        //flexDirection: 'row',
         paddingLeft: 2,
         borderWidth: 0.1,
         borderRadius: 6,
         backgroundColor: "#DCDCDC",
         marginTop : 5,
         marginHorizontal: 1,
-        //flexWrap: "wrap"
 
     },
     content_3 : {
@@ -264,7 +299,6 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
-       // marginTop: Constants.statusBarHeight,
     },
     button: {
         alignItems: "center",
@@ -274,7 +308,19 @@ const styles = StyleSheet.create({
     categorie: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-
+    },
+    paiementButton: {
+        justifyContent:'center',
+        alignItems:'center',
+        flexDirection: 'row',
+        borderWidth: 0.25,
+        borderRadius: 6 ,
+        marginLeft: 20,
+        marginRight: 20,
+        marginBottom: 5,
+        backgroundColor: "#FBBE33",
+        overflow: 'hidden',
+        opacity: 0.8,
     }
 });
 
