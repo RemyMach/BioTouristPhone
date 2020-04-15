@@ -42,22 +42,19 @@ class Register extends React.Component {
         this.password = ""
         this.passwordConfirmation = ""
         this.status = ""
+        this.sellerDescription = ""
+        this.sellerAdress = ""
+        this.sellerCity = ""
+        this.sellerPostalCode = ""
+
     }
 
     _register() {
 
-        let data = {
-            'api_token': ADMIN_API_TOKEN,
-            'idUser': ADMIN_API_ID,
-            'user_name': this.firstName,
-            'user_surname': this.lastName,
-            'email': this.email,
-            'user_postal_code': this.postalCode,
-            'user_phone': this.phoneNumber,
-            'password': this.password,
-            'passwordConfirmation' : this.passwordConfirmation,
-            'status_user': this.state.status_user
-        }
+        console.log('pomme')
+        let data = this.getData();
+        console.log('pomme1')
+
         postRequest('user/store',data).then(response =>
             this.setState({
                     data : response.data,
@@ -68,8 +65,46 @@ class Register extends React.Component {
             ))
     }
 
+    getData(){
+
+        if(this.state.check2 === true){
+            var data = {
+                'api_token': ADMIN_API_TOKEN,
+                'idUser': ADMIN_API_ID,
+                'user_name': this.firstName,
+                'user_surname': this.lastName,
+                'email': this.email,
+                'user_postal_code': this.postalCode,
+                'user_phone': this.phoneNumber,
+                'password': this.password,
+                'password_confirmation' : this.passwordConfirmation,
+                'status_user': this.state.status_user,
+                'seller_description' : this.seller_description,
+                'seller_adress' : this.seller_description,
+                'seller_city' : this.seller_city,
+                'seller_postal_code' : this.seller_postal_code
+            }
+        }else{
+
+            var data = {
+                'api_token': ADMIN_API_TOKEN,
+                'idUser': ADMIN_API_ID,
+                'user_name': this.firstName,
+                'user_surname': this.lastName,
+                'email': this.email,
+                'user_postal_code': this.postalCode,
+                'user_phone': this.phoneNumber,
+                'password': this.password,
+                'password_confirmation' : this.passwordConfirmation,
+                'status_user': this.state.status_user
+            }
+            console.log(data)
+        }
+        return data;
+    }
+
     storeSessionIfRegister(){
-        console.log('jon')
+
         const {status} = this.state
         if(status === '200'){
 
@@ -122,14 +157,35 @@ class Register extends React.Component {
 
         if(this.state.check2 === true){
             return (
-            <View style={styles.textAreaContainer} >
+            <View  >
                 <TextInput
-                    style={styles.textArea}
-                    placeholder="Seller description"
-                    placeholderTextColor="grey"
-                    numberOfLines={10}
-                    multiline={true}
+                    secureTextEntry={true}
+                    style={styles.textinput}
+                    placeholder='seller adress'
+                    onChangeText={(text) => this.handleSellerAdress(text)}
                 />
+                <TextInput
+                    secureTextEntry={true}
+                    style={styles.textinput}
+                    placeholder='seller city'
+                    onChangeText={(text) => this.handleSellerCity(text)}
+                />
+                <TextInput
+                    secureTextEntry={true}
+                    style={styles.textinput}
+                    placeholder='seller postal code'
+                    onChangeText={(text) => this.handleSellerPostalCode(text)}
+                />
+                <View style={styles.textAreaContainer} >
+                    <TextInput
+                        style={styles.textArea}
+                        placeholder="seller description"
+                        placeholderTextColor="grey"
+                        onChangeText={(text) => this.handleSellerDescription(text)}
+                        numberOfLines={10}
+                        multiline={true}
+                    />
+                </View>
             </View>
             )
         }
@@ -228,6 +284,22 @@ class Register extends React.Component {
                 </ScrollView>
             </KeyboardAvoidingView>
         )
+    }
+
+    handleSellerDescription(text){
+        this.sellerDescription = text
+    }
+
+    handleSellerAdress(text){
+        this.sellerAdress = text
+    }
+
+    handleSellerCity(text){
+        this.sellerCity = text
+    }
+
+    handleSellerPostalCode(text){
+        this.sellerPostalCode = text
     }
 
     handleFirstName(text){
