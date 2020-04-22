@@ -43,6 +43,7 @@ class Conversations extends React.Component {
         if(current_status === 'Seller'){
             this._getConversationsForASeller(user)
         }else{
+            console.log("messageGetConversations")
             this._getConversationsForTouristAndController(user)
         }
 
@@ -65,17 +66,21 @@ class Conversations extends React.Component {
     }
 
     _getConversationsForTouristAndController(user){
+        console.log(user.api_token)
+        console.log(user.idUser)
+        console.log("user")
         let data = {
             'api_token': user.api_token,
             'idUser': user.idUser,
         }
+        console.log("postRequest")
         postRequest('message/showMessagesOfATouristController',data).then(response =>
             this.setState({
                     data : response.data,
                     status : response.data.status,
                     loading: false
-                }
-            ))
+                })
+            )
 
     }
 
@@ -157,6 +162,10 @@ const styles = StyleSheet.create({
     },
     list: {
         flex: 1
+    },
+    loading : {
+        flex:1,
+        justifyContent: 'center',
     }
 })
 
