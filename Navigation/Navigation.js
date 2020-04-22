@@ -9,6 +9,7 @@ import MyProfile from '../Components/MyProfile'
 import ProfileContent from '../Components/ProfileContent'
 import Register from '../Components/Register'
 import Cart from '../Components/Cart'
+import Payment from '../Components/Payment'
 import Login from '../Components/Login'
 import MyInformations from "../Components/MyInformations"
 import MyPassword from "../Components/MyPassword"
@@ -37,6 +38,12 @@ const FavoritesStackNavigator = createStackNavigator({
 const CartStackNavigator = createStackNavigator({
     Cart: {
         screen: Cart,
+        navigationOptions: {
+            headerShown: false
+        }
+    },
+    Payment: {
+        screen: Payment,
         navigationOptions: {
             headerShown: false
         }
