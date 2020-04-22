@@ -4,6 +4,7 @@ import {StyleSheet, Text, FlatList, AsyncStorage, View, ActivityIndicator, SafeA
 import Constants from "expo-constants";
 import {postRequest} from "../API/BioTouristAPI";
 import FavoritesCard from "./FavoritesCard";
+import { NavigationEvents } from "react-navigation";
 import ConversationCard from "./ConversationCard";
 
 const styles = StyleSheet.create({
@@ -32,11 +33,14 @@ class Favorites extends React.Component {
 
     }
     componentDidMount() {
+        console.log('je passe dans didmount')
+        console.log(this.state.user)
         this.getSessionAndCurrentStatus();
     }
 
 
     async getSessionAndCurrentStatus(){
+        console.log('getsession')
         try{
             const user = await AsyncStorage.getItem('user').then(result => result);
             const current_status = await AsyncStorage.getItem('user_current_status').then(result => result);
@@ -50,11 +54,23 @@ class Favorites extends React.Component {
     }
 
     getFavorites(){
-        const user = this.state.user
-        const current_status = this.state.current_status.status_user_label
-        if(current_status === 'Tourist' || current_status === 'Controller'){
-            this._selectFavorites(user)
+        console.log('getFavorites')
+        //console.log(this.state.user)
+        if(this.state.user !== null){
+            const user = this.state.user
+            const current_status = this.state.current_status.status_user_label
+            if(current_status === 'Tourist' || current_status === 'Controller'){
+                this._selectFavorites(user)
+            }
         }
+        this.setLoadingFalseAfterRefresh()
+    }
+
+    setLoadingFalseAfterRefresh(){
+
+        this.setState({
+            loading: true
+        })
     }
 
     _selectFavorites(user){
@@ -79,15 +95,24 @@ class Favorites extends React.Component {
         return (
             <View style={styles.loading_container}>
                 <ActivityIndicator size="large" />
+                <NavigationEvents
+                    onWillFocus={() => {
+                        this.componentDidMount()
+                    }}
+                />
             </View>
         )
     }
 
     displayFavorites(){
-        console.log('je suis dans le display Favorites')
-        console.log(this.state.user)
+
         return (
             <SafeAreaView>
+                <NavigationEvents
+                    onWillFocus={() => {
+                        this.componentDidMount()
+                    }}
+                />
                 <FlatList
                     data={this.state.data}
                     keyExtractor={item => item.idFavori.toString()}
@@ -105,6 +130,8 @@ class Favorites extends React.Component {
     }
 
     render() {
+        console.log('loading ' + this.state.loading)
+        console.log('--------------------------')
         if (this.state.loading === true) {
             return (
                 <View style={styles.loading}>
