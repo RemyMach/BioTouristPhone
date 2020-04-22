@@ -37,13 +37,11 @@ class Favorites extends React.Component {
 
     }
     componentDidMount() {
-
         this.getSessionAndCurrentStatus();
     }
 
 
     async getSessionAndCurrentStatus(){
-
         try{
             const user = await AsyncStorage.getItem('user').then(result => result);
             const current_status = await AsyncStorage.getItem('user_current_status').then(result => result);
@@ -132,7 +130,6 @@ class Favorites extends React.Component {
     }
 
     render() {
-
         if (this.state.loading === true) {
             return (
                 <View style={styles.loading}>

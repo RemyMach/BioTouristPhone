@@ -4,6 +4,9 @@
     "slug": "Biotourist",
     "privacy": "public",
     "sdkVersion": "36.0.0",
+    "packagerOpts": {
+      "nonPersistent": false
+    },
     "platforms": [
       "ios",
       "android",
@@ -14,17 +17,20 @@
     "icon": "./assets/icon.png",
     "splash": {
       "image": "./assets/splash.png",
-      "resizeMode": "content",
+      "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
     },
     "assetBundlePatterns": [
-      "**/*"
+      "assets/*"
     ],
     "ios": {
       "supportsTablet": true
+    },
+    "android": {
+      "package": "com.biotourist.BioTourist"
     },
     "description": ""
   }

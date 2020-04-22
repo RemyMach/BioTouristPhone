@@ -27,9 +27,6 @@ const SearchStackNavigator = createStackNavigator({
 const FavoritesStackNavigator = createStackNavigator({
     Favorites: {
         screen: Favorites,
-        navigationOptions: {
-            headerShown: false
-        }
     }
 });
 

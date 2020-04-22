@@ -20,12 +20,8 @@ class FavoritesCard extends React.Component {
                 <View>
                     <Text style={styles.announce_subject}>
                         {this.props.favorite.announce_city}
-                    </Text>
-                    <Text style={styles.announce_subject}>
                         {this.props.favorite.announce_adresse}
                     </Text>
-                </View>
-                <View>
                     <Text style={styles.announce_subject}>
                         {this.props.favorite.announce_comment}
                     </Text>
@@ -85,6 +81,7 @@ const styles = StyleSheet.create({
         flex:1,
         flexDirection: 'row',
         alignItems:'center',
+        justifyContent: 'flex-end',
         padding: 10,
         backgroundColor: '#D4EDDA',
     },
@@ -103,6 +100,7 @@ const styles = StyleSheet.create({
     announce_subject: {
         flex: 1,
         alignItems: 'flex-end',
+        paddingLeft: 10,
     },
     user_name: {
         borderBottomWidth: 1,
