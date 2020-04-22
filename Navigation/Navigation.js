@@ -15,7 +15,6 @@ import MyPassword from "../Components/MyPassword"
 import Conversations from "../Components/Conversations"
 import Messages from "../Components/Messages";
 
-
 const SearchStackNavigator = createStackNavigator({
     Search: {
         screen: HomePage,
@@ -155,13 +154,15 @@ const AppTabNavigator = createBottomTabNavigator(
             }
         }
     },
+
     {
         tabBarOptions: {
             activeBackgroundColor: '#DDDDDD',//couleur d'arrière-plan de l'onglet sélectionné
             inactiveBackgroundColor: '#FFFFFF',//couleur d'arrière-plan des onglets non sélectionnés
             showLabel: true,//on masque les titres
             showIcon: true // on informe le TabNavigator qu'on souhaite afficher les icônes définis
-        }
+        },
+       /* lazy: false*/
     }
 )
 

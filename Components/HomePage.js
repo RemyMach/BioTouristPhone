@@ -7,7 +7,8 @@ import { postRequest } from '../API/BioTouristAPI'
 import { ADMIN_API_TOKEN } from 'react-native-dotenv'
 import { ADMIN_API_ID } from 'react-native-dotenv'
 import {NavigationActions, StackActions} from "react-navigation";
-import styled from 'styled-components'
+/*import styled from 'styled-components'*/
+
 
 class HomePage extends React.Component {
 
@@ -106,7 +107,6 @@ const styles = StyleSheet.create({
       fontWeight: '900',
       fontSize: 30,
       marginBottom: 20,
-      marginTop: 20,
       textAlign: 'center',
       marginTop : Constants.statusBarHeight
     },
