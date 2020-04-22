@@ -22,6 +22,11 @@ const styles = StyleSheet.create({
         flex:1,
         justifyContent: 'center',
     },
+    loading_center : {
+        flex:1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
 });
 
 class Favorites extends React.Component {
@@ -32,7 +37,8 @@ class Favorites extends React.Component {
             loading: true,
             user: undefined,
             current_status: undefined,
-            data: undefined
+            data: undefined,
+            connected: false
         }
 
     }
@@ -69,7 +75,8 @@ class Favorites extends React.Component {
     setLoadingFalseAfterRefresh(){
 
         this.setState({
-            loading: true
+            loading: false,
+            connected: false
         })
     }
 
@@ -83,12 +90,30 @@ class Favorites extends React.Component {
             response => this.setState({
                 data : response.data.favoris,
                 status : response.data.status,
-                loading: false
+                loading: false,
+                connected: true
                 })
         )
         if (this.state.data != 'undefined'){
             this.displayFavorites()
         }
+    }
+
+    displayConnected(){
+
+        return (
+            <View style={styles.loading_center}>
+                <Text>
+                    You need to be connected
+                </Text>
+                <NavigationEvents
+                    onWillFocus={() => {
+                this.componentDidMount()
+                }}
+                />
+            </View>
+        )
+
     }
 
     _displayLoading() {
@@ -136,7 +161,15 @@ class Favorites extends React.Component {
                     {this._displayLoading()}
                 </View>
             )
-        } else {
+        }
+        else if(this.state.loading === false && this.state.connected === false){
+            return (
+                <View style={styles.loading}>
+                    {this.displayConnected()}
+                </View>
+            )
+        }
+        else{
             return (
                 <View style={styles.content_1}>
                    {this.displayFavorites()}
