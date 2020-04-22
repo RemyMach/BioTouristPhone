@@ -17,7 +17,11 @@ const styles = StyleSheet.create({
     },
     list: {
         flex: 1
-    }
+    },
+    loading : {
+        flex:1,
+        justifyContent: 'center',
+    },
 });
 
 class Favorites extends React.Component {
@@ -33,14 +37,13 @@ class Favorites extends React.Component {
 
     }
     componentDidMount() {
-        console.log('je passe dans didmount')
-        console.log(this.state.user)
+
         this.getSessionAndCurrentStatus();
     }
 
 
     async getSessionAndCurrentStatus(){
-        console.log('getsession')
+
         try{
             const user = await AsyncStorage.getItem('user').then(result => result);
             const current_status = await AsyncStorage.getItem('user_current_status').then(result => result);
@@ -54,8 +57,7 @@ class Favorites extends React.Component {
     }
 
     getFavorites(){
-        console.log('getFavorites')
-        //console.log(this.state.user)
+
         if(this.state.user !== null){
             const user = this.state.user
             const current_status = this.state.current_status.status_user_label
@@ -74,7 +76,7 @@ class Favorites extends React.Component {
     }
 
     _selectFavorites(user){
-        console.log('je passe dans le _selectFavorites')
+
         let data = {
             'api_token': user.api_token,
             'idUser': user.idUser,
@@ -93,7 +95,7 @@ class Favorites extends React.Component {
 
     _displayLoading() {
         return (
-            <View style={styles.loading_container}>
+            <View style={styles.loading}>
                 <ActivityIndicator size="large" />
                 <NavigationEvents
                     onWillFocus={() => {
@@ -130,8 +132,7 @@ class Favorites extends React.Component {
     }
 
     render() {
-        console.log('loading ' + this.state.loading)
-        console.log('--------------------------')
+
         if (this.state.loading === true) {
             return (
                 <View style={styles.loading}>
@@ -141,7 +142,6 @@ class Favorites extends React.Component {
         } else {
             return (
                 <View style={styles.content_1}>
-                   <Text>Remy la grosse tarlouuuuuzeee</Text>
                    {this.displayFavorites()}
                 </View>
             )

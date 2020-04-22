@@ -156,6 +156,10 @@ const styles = StyleSheet.create({
     },
     list: {
         flex: 1
+    },
+    loading : {
+        flex:1,
+        justifyContent: 'center',
     }
 })
 
