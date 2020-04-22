@@ -105,7 +105,7 @@ class Conversations extends React.Component {
     displayError(){
 
         return (
-            <View style={styles.content_1}>
+            <View style={styles.conversation_center}>
                 <Text>You have no message history</Text>
             </View>
         )
@@ -166,7 +166,12 @@ const styles = StyleSheet.create({
     loading : {
         flex:1,
         justifyContent: 'center',
-    }
+    },
+    conversation_center : {
+        flex:1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
 })
 
 export default Conversations

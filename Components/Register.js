@@ -79,10 +79,10 @@ class Register extends React.Component {
                 'password': this.password,
                 'password_confirmation' : this.passwordConfirmation,
                 'status_user': this.state.status_user,
-                'seller_description' : this.seller_description,
-                'seller_adress' : this.seller_description,
-                'seller_city' : this.seller_city,
-                'seller_postal_code' : this.seller_postal_code
+                'seller_description' : this.sellerDescription,
+                'seller_adress' : this.sellerAdress,
+                'seller_city' : this.sellerCity,
+                'seller_postal_code' : this.sellerPostalCode
             }
         }else{
 
@@ -98,8 +98,8 @@ class Register extends React.Component {
                 'password_confirmation' : this.passwordConfirmation,
                 'status_user': this.state.status_user
             }
-            console.log(data)
         }
+        console.log(data)
         return data;
     }
 
@@ -159,19 +159,16 @@ class Register extends React.Component {
             return (
             <View  >
                 <TextInput
-                    secureTextEntry={true}
                     style={styles.textinput}
                     placeholder='seller adress'
                     onChangeText={(text) => this.handleSellerAdress(text)}
                 />
                 <TextInput
-                    secureTextEntry={true}
                     style={styles.textinput}
                     placeholder='seller city'
                     onChangeText={(text) => this.handleSellerCity(text)}
                 />
                 <TextInput
-                    secureTextEntry={true}
                     style={styles.textinput}
                     placeholder='seller postal code'
                     onChangeText={(text) => this.handleSellerPostalCode(text)}
